@@ -27,6 +27,10 @@ const handlers = {
 		room.setRoles(roles);
 		rooms.set(room.id, room);
 
+		setTimeout(() => {
+			rooms.delete(room.id);
+		}, 10000);
+
 		return room;
 	},
 
