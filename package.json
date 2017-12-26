@@ -1,0 +1,19 @@
+{
+  "name": "asmodee-werewolf-server",
+  "version": "0.1.0",
+  "description": "Server of Asmodee Werewolves of Miller's Hollow",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/takashiro/asmodee-werewolf-server.git"
+  },
+  "author": "Kazuichi Takashiro",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/takashiro/asmodee-werewolf-server/issues"
+  },
+  "homepage": "https://github.com/takashiro/asmodee-werewolf-server#readme"
+}
