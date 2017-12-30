@@ -29,7 +29,7 @@ const handlers = {
 
 		setTimeout(() => {
 			rooms.delete(room.id);
-		}, 10000);
+		}, 1000 * 60 * 10);
 
 		return room;
 	},
