@@ -29,43 +29,55 @@ function randomstr(length){
 
 let next_room_id = 1;
 
-function Room() {
-	this.id = next_room_id;
-	next_room_id++;
-	this.salt = randomstr(8);
-	this.roles = [];
 
-	let role_map = [];
+class Room {
 
-	this.setRoles = roles => {
+	constructor() {
+		this.id = next_room_id;
+		next_room_id++;
+		this.salt = randomstr(8);
+	}
+
+	setRoles(roles){
+		this.cards = [];
+		this.roles = [];
+
 		for (let role of roles) {
-			role_map.push({
-				value: role,
+			this.cards.push({
+				role: role,
 				used: false
 			});
 			this.roles.push(role);
 		}
 
-		shuffle(role_map);
+		shuffle(this.cards);
+
+		for (let card of this.cards) {
+
+		}
 	}
 
-	this.fetchRole = () => {
-		let unused_roles = [];
-		for (let role of role_map) {
-			if (!role.used) {
-				unused_roles.push(role);
-			}
-		}
-
-		if (unused_roles.length <= 0) {
+	fetchRole(){
+		if (!this.cards) {
 			return 0;
 		}
 
-		let index = Math.floor(Math.random() * unused_roles.length);
-		let selected = unused_roles[index];
+		let unused_cards = [];
+		for (let card of this.cards) {
+			if (!card.used) {
+				unused_cards.push(card);
+			}
+		}
 
-		selected.used = true;
-		return selected.value;
+		if (unused_cards.length <= 0) {
+			return 0;
+		}
+
+		let index = Math.floor(Math.random() * unused_cards.length);
+		let card = unused_cards[index];
+
+		card.used = true;
+		return card.role;
 	}
 }
 
