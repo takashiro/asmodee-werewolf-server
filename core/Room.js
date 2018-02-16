@@ -1,4 +1,6 @@
 
+const engine = require('../engine');
+
 function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
@@ -43,23 +45,19 @@ class Room {
 		this.roles = [];
 
 		for (let role of roles) {
-			this.cards.push({
-				role: role,
-				used: false
-			});
+			this.cards.push(engine.createCard(role));
 			this.roles.push(role);
 		}
 
 		shuffle(this.cards);
-
 		for (let card of this.cards) {
-
+			card.onShuffled(this);
 		}
 	}
 
-	fetchRole(){
+	fetchUnusedCards() {
 		if (!this.cards) {
-			return 0;
+			return [];
 		}
 
 		let unused_cards = [];
@@ -68,16 +66,20 @@ class Room {
 				unused_cards.push(card);
 			}
 		}
+		return unused_cards;
+	}
 
+	fetchCard(){
+		let unused_cards = this.fetchUnusedCards();
 		if (unused_cards.length <= 0) {
-			return 0;
+			return null;
 		}
 
 		let index = Math.floor(Math.random() * unused_cards.length);
 		let card = unused_cards[index];
 
 		card.used = true;
-		return card.role;
+		return card;
 	}
 }
 

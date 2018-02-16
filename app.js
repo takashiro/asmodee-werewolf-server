@@ -59,12 +59,11 @@ const handlers = {
 		}
 
 		if (room.id <= 0) {
-			return {role: 0};
+			return {};
 		}
 
-		return {
-			role: room.fetchRole()
-		};
+		let card = room.fetchCard();
+		return card ? card.toJSON() : {};
 	}
 };
 
