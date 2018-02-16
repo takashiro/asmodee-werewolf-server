@@ -1,7 +1,7 @@
 
 const http = require('http');
 
-const Room = require('./Room');
+const Room = require('./core/Room');
 
 const rooms = new Map();
 
