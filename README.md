@@ -1,4 +1,4 @@
-Werewolf
+Werewolves of Miller's Hollow
 ==========
 
 | Example Page |    http://werewolf.takashiro.me       |
@@ -24,9 +24,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 Introduction
 ------------
 
-It's a small online app to arrange role cards of One Night Ultimate Werewolf
-and help players to take actions.
+It's a small online app to arrange role cards of the board game Werewolves of Miller's Hollow.
 
+Web Client: https://github.com/takashiro/asmodee-werewolf
 
 Running Environment
 -------------------
