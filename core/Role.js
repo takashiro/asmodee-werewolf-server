@@ -12,8 +12,8 @@ const Role = DeclareEnum(
 
 	// Team Werewolf
 	'Werewolf',
-	'WolfKing',
-	'WhiteWolfKing',
+	'AlphaWolf',
+	'WhiteAlphaWolf',
 	'WolfBeauty',
 	'SecretWolf',
 	'Demon',
@@ -42,17 +42,8 @@ const Role = DeclareEnum(
 	'MaxLimit'
 );
 
-let WerewolfRoles = [
-	Role.Werewolf,
-	Role.WolfKing,
-	Role.WhiteWolfKing,
-	Role.WolfBeauty,
-	Role.SecretWolf,
-	Role.Demon
-];
-
 Role.isWerewolf = function(role) {
-	return WerewolfRoles.indexOf(role) >= 0;
+	return Role.Unknown < role && role < Role.Villager;
 };
 
 module.exports = Role;
