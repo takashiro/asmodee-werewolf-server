@@ -63,7 +63,7 @@ const handlers = {
 		}
 
 		let card = room.fetchCard();
-		return card ? card.toJSON() : {};
+		return card ? card : {};
 	}
 };
 
@@ -92,8 +92,11 @@ const server = http.createServer((request, response) => {
 			if (!isNaN(result)) {
 				response.writeHead(result);
 				response.end();
-			} else {
+			} else if (result) {
 				response.writeHead(200);
+				if (result.toJSON) {
+					result = result.toJSON();
+				}
 				response.end(JSON.stringify(result));
 			}
 		} else {

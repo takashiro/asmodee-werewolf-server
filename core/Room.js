@@ -81,6 +81,14 @@ class Room {
 		card.used = true;
 		return card;
 	}
+
+	toJSON() {
+		return {
+			id: this.id,
+			salt: this.salt,
+			roles: this.roles
+		};
+	}
 }
 
 module.exports = Room;

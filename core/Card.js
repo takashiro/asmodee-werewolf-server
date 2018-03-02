@@ -1,6 +1,4 @@
 
-let RoleCards = {};
-
 class Card {
 
 	/**
