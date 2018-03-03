@@ -38,6 +38,8 @@ class Room {
 		this.id = next_room_id;
 		next_room_id++;
 		this.salt = randomstr(8);
+		this.seatMap = new Map();
+		this.ownerKey = randomstr(32);
 	}
 
 	setRoles(roles){
@@ -69,7 +71,15 @@ class Room {
 		return unused_cards;
 	}
 
-	fetchCard(){
+	hasSeat(seat) {
+		return !this.seatMap.has(seat);
+	}
+
+	takeSeat(seat, card) {
+		this.seatMap.set(seat, card);
+	}
+
+	fetchCard() {
 		let unused_cards = this.fetchUnusedCards();
 		if (unused_cards.length <= 0) {
 			return null;

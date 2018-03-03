@@ -29,9 +29,11 @@ const handlers = {
 
 		setTimeout(() => {
 			rooms.delete(room.id);
-		}, 1000 * 60 * 10);
+		}, 1000 * 60 * 60);
 
-		return room;
+		let info = room.toJSON();
+		info.ownerKey = room.ownerKey;
+		return info;
 	},
 
 	enterroom: input => {
@@ -52,18 +54,51 @@ const handlers = {
 		return room;
 	},
 
+	fetchroles: input => {
+		let room = handlers.enterroom(input);
+		if (!(room instanceof Room)) {
+			return room;
+		}
+
+		if (room.ownerKey != input.ownerKey) {
+			return {error: 'INVALID_OWNERKEY'};
+		}
+
+		let seats = [];
+		room.seatMap.forEach((card, seat) => {
+			seats.push({
+				seat: seat,
+				card: card.toJSON()
+			});
+		});
+		return seats;
+	},
+
 	fetchrole: input => {
 		let room = handlers.enterroom(input);
-		if (!isNaN(room)) {
+		if (!(room instanceof Room)) {
 			return room;
 		}
 
 		if (room.id <= 0) {
-			return {};
+			return {error: 'ROOM_EXPIRED'};
+		}
+
+		let seat = parseInt(input.seat, 10);
+		if (isNaN(seat)) {
+			return {error: 'INVALID_SEAT'};
+		}
+		if (!room.hasSeat(seat)) {
+			return {error: 'SEAT_TAKEN'};
 		}
 
 		let card = room.fetchCard();
-		return card ? card : {};
+		if (!card) {
+			return {error: 'ROOM_FULL'};
+		}
+
+		room.takeSeat(seat, card);
+		return card;
 	}
 };
 
@@ -89,7 +124,7 @@ const server = http.createServer((request, response) => {
 
 		if (input) {
 			let result = handler(input);
-			if (!isNaN(result)) {
+			if (typeof result == 'number') {
 				response.writeHead(result);
 				response.end();
 			} else if (result) {
@@ -97,7 +132,10 @@ const server = http.createServer((request, response) => {
 				if (result.toJSON) {
 					result = result.toJSON();
 				}
-				response.end(JSON.stringify(result));
+				if (typeof result != 'string') {
+					result = JSON.stringify(result);
+				}
+				response.end(result);
 			}
 		} else {
 			response.writeHead(400);
