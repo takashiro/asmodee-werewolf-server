@@ -2,9 +2,10 @@
   "name": "asmodee-werewolf-server",
   "version": "0.1.0",
   "description": "Server of Asmodee Werewolves of Miller's Hollow",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "npm test"
+	"start": "node app.js",
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
