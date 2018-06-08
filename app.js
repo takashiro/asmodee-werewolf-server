@@ -25,6 +25,7 @@ const handlers = {
 
 		let room = new Room();
 		room.setRoles(roles);
+		room.arrangeCards();
 		rooms.set(room.id, room);
 
 		setTimeout(() => {
@@ -65,12 +66,12 @@ const handlers = {
 		}
 
 		let seats = [];
-		room.seatMap.forEach((card, seat) => {
+		for (let [seat, card] of room.seatMap) {
 			seats.push({
 				seat: seat,
 				card: card.toJSON()
 			});
-		});
+		}
 		return seats;
 	},
 
@@ -85,19 +86,20 @@ const handlers = {
 		}
 
 		let seat = parseInt(input.seat, 10);
-		if (isNaN(seat)) {
+		if (isNaN(seat) || !room.hasSeat(seat)) {
 			return {error: 'INVALID_SEAT'};
 		}
-		if (!room.hasSeat(seat)) {
+
+		let key = parseInt(input.key, 10);
+		if (isNaN(key) || !key) {
+			return {error: 'INVALID_SEATKEY'};
+		}
+
+		let card = room.takeSeat(seat, key);
+		if (!card) {
 			return {error: 'SEAT_TAKEN'};
 		}
 
-		let card = room.fetchCard();
-		if (!card) {
-			return {error: 'ROOM_FULL'};
-		}
-
-		room.takeSeat(seat, card);
 		return card;
 	}
 };

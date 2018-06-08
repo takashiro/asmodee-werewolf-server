@@ -42,7 +42,7 @@ class Room {
 		this.ownerKey = randomstr(32);
 	}
 
-	setRoles(roles){
+	setRoles(roles) {
 		this.cards = [];
 		this.roles = [];
 
@@ -57,26 +57,33 @@ class Room {
 		}
 	}
 
+	arrangeCards() {
+		let seat_num = this.fetchUnusedCards().length;
+		for (let i = 1; i <= seat_num; i++) {
+			this.seatMap.set(i, this.fetchCard());
+		}
+	}
+
 	fetchUnusedCards() {
 		if (!this.cards) {
 			return [];
 		}
 
-		let unused_cards = [];
-		for (let card of this.cards) {
-			if (!card.used) {
-				unused_cards.push(card);
-			}
-		}
-		return unused_cards;
+		return this.cards.filter(card => !card.used);
 	}
 
 	hasSeat(seat) {
-		return !this.seatMap.has(seat);
+		return this.seatMap.has(seat);
 	}
 
-	takeSeat(seat, card) {
-		this.seatMap.set(seat, card);
+	takeSeat(seat, key) {
+		let card = this.seatMap.get(seat);
+		if (!card.key) {
+			card.key = key;
+			return card;
+		} else {
+			return null;
+		}
 	}
 
 	fetchCard() {
