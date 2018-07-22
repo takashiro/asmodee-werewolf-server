@@ -12,6 +12,10 @@ const handlers = {
 			return 400;
 		}
 
+		if (input.roles.length > 50) {
+			return 400;
+		}
+
 		let roles = [];
 		for (let role of input.roles) {
 			role = parseInt(role, 10);
