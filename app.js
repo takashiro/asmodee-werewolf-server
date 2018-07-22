@@ -2,8 +2,9 @@
 const http = require('http');
 
 const Room = require('./core/Room');
+const RoomManager = require('./core/RoomManager');
 
-const rooms = new Map();
+const roomManager = new RoomManager;
 
 const handlers = {
 	createroom: input => {
@@ -26,11 +27,10 @@ const handlers = {
 		let room = new Room();
 		room.setRoles(roles);
 		room.arrangeCards();
-		rooms.set(room.id, room);
 
-		setTimeout(() => {
-			rooms.delete(room.id);
-		}, 1000 * 60 * 60);
+		if (!roomManager.add(room)) {
+			return 400;
+		}
 
 		let info = room.toJSON();
 		info.ownerKey = room.ownerKey;
@@ -47,7 +47,7 @@ const handlers = {
 			return 400;
 		}
 
-		let room = rooms.get(id);
+		let room = roomManager.get(id);
 		if (!room) {
 			return {id : 0};
 		}

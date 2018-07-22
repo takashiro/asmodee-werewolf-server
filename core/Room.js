@@ -29,14 +29,10 @@ function randomstr(length){
 	return str;
 }
 
-let next_room_id = 1;
-
-
 class Room {
 
 	constructor() {
-		this.id = next_room_id;
-		next_room_id++;
+		this.id = 0;
 		this.salt = randomstr(8);
 		this.seatMap = new Map();
 		this.ownerKey = randomstr(32);
