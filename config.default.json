@@ -1,0 +1,5 @@
+{
+	"host": "localhost",
+	"port": 2620,
+	"roomNumLimit": 1000
+}
