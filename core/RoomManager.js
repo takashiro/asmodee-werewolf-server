@@ -1,4 +1,6 @@
 
+let nextRoomId = 0;
+
 class RoomManager {
 
 	constructor()  {
@@ -12,13 +14,9 @@ class RoomManager {
 	 * @return {boolean} whether the room is successfully added
 	 */
 	add(room) {
-		let id = this._generateId();
-		if (id <= 0) {
-			return false;
-		}
-
-		room.id = id;
-		this.rooms.set(id, room);
+		nextRoomId++;
+		room.id = nextRoomId;
+		this.rooms.set(room.id, room);
 
 		setTimeout(() => {
 			this.rooms.delete(id);
@@ -41,17 +39,6 @@ class RoomManager {
 	 */
 	get(id) {
 		return this.rooms.get(id);
-	}
-
-	_generateId() {
-		let i = 0;
-		do {
-			let id = Math.floor(Math.random() * 10000);
-			if (!this.rooms.has(id)) {
-				return id;
-			}
-		} while (i < 5);
-		return 0;
 	}
 
 }
