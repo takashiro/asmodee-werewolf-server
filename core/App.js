@@ -77,6 +77,7 @@ class App {
 	}
 
 	start() {
+		console.log(`Listening at port ${this.config.port}...`);
 		this.server.listen(this.config.port);
 	}
 
