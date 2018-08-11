@@ -4,7 +4,7 @@
   "description": "Server of Asmodee Werewolves of Miller's Hollow",
   "main": "app.js",
   "scripts": {
-	"start": "node app.js",
+    "start": "node app.js",
     "test": "node test/index.js"
   },
   "repository": {
