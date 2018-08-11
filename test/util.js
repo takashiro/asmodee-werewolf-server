@@ -5,6 +5,7 @@ function request(method, api, data = null) {
 	return new Promise(function (resolve, reject) {
 		let req = http.request({
 			method: method,
+			host: 'localhost',
 			port: 2620,
 			path: api,
 		}, res => {

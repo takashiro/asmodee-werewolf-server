@@ -78,7 +78,15 @@ class App {
 
 	start() {
 		console.log(`Listening at port ${this.config.port}...`);
-		this.server.listen(this.config.port);
+		return new Promise((resolve) => {
+			this.server.listen(this.config.port, this.config.host, resolve);
+		});
+	}
+
+	close() {
+		return new Promise((resolve) => {
+			this.server.close(resolve);
+		});
 	}
 
 }

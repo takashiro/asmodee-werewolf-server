@@ -1,6 +1,7 @@
 
-const {spawn} = require('child_process');
 const fs = require('fs');
+
+const App = require('../core/App');
 
 const testDir = __dirname + '/unit';
 
@@ -11,13 +12,23 @@ fs.readdir(testDir, async (err, files) => {
 		return;
 	}
 
-	const server = spawn('node', ['app.js'], {cwd: __dirname + '/..'});
+	const server = new App;
+	await server.start();
+	console.log('Server is started');
 
 	for (let file of files) {
 		let test = require(testDir + '/' + file);
 		console.log(test.name + '...');
-		await test.run();
+		try {
+			await test.run();
+		} catch (error) {
+			console.error(error);
+			process.exit(1);
+		}
 	}
 
-	server.kill();
+	await server.close();
+	console.log('Server is stopped.');
+
+	process.exit(0);
 });
