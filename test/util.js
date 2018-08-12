@@ -9,6 +9,10 @@ function request(method, api, data = null) {
 			port: 2620,
 			path: api,
 		}, res => {
+			if (res.statusCode !== 200) {
+				return reject(res.statusCode);
+			}
+
 			let trunks = [];
 
 			res.on('data', trunk => {

@@ -41,6 +41,13 @@ class RoomManager {
 		return this.rooms.get(id);
 	}
 
+	/**
+	 * Delete a room
+	 */
+	delete(id) {
+		return this.rooms.delete(id);
+	}
+
 }
 
 module.exports = RoomManager;
