@@ -20,6 +20,10 @@ class RoomManager {
 		}
 
 		nextRoomId++;
+		if (nextRoomId > this.capacity) {
+			nextRoomId = 1;
+		}
+
 		room.id = nextRoomId;
 		this.rooms.set(room.id, room);
 
