@@ -1,7 +1,7 @@
 Werewolves of Miller's Hollow
 ==========
 
-| Example Page |    http://werewolf.takashiro.me       |
+| Example Page |    https://werewolf.takashiro.cn      |
 |--------------|---------------------------------------|
 | Author       |           Kazuichi Takashiro          |
 
