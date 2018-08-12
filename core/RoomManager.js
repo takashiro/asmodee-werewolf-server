@@ -3,9 +3,10 @@ let nextRoomId = 0;
 
 class RoomManager {
 
-	constructor()  {
+	constructor(capacity = 1000)  {
 		this.rooms = new Map;
 		this.timeout = 60 * 60 * 1000;
+		this.capacity = capacity;
 	}
 
 	/**
@@ -14,6 +15,10 @@ class RoomManager {
 	 * @return {boolean} whether the room is successfully added
 	 */
 	add(room) {
+		if (this.rooms.size >= this.capacity) {
+			return false;
+		}
+
 		nextRoomId++;
 		room.id = nextRoomId;
 		this.rooms.set(room.id, room);

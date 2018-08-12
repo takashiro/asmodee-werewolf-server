@@ -72,7 +72,7 @@ class App {
 
 	constructor(config) {
 		this.config = Object.assign({}, DefaultConfig, config);
-		this.roomManager = new RoomManager;
+		this.roomManager = new RoomManager(this.config.maxRoomLimit);
 		this.server = http.createServer(requestListener.bind(this));
 	}
 

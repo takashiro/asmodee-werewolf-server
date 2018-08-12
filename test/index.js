@@ -12,7 +12,9 @@ fs.readdir(testDir, async (err, files) => {
 		return;
 	}
 
-	const server = new App;
+	const server = new App({
+		maxRoomLimit: 10,
+	});
 	await server.start();
 	console.log('Server is started');
 
