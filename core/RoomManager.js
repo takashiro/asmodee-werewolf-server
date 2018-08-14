@@ -27,6 +27,7 @@ class RoomManager {
 		room.id = nextRoomId;
 		this.rooms.set(room.id, room);
 
+		let id = room.id;
 		setTimeout(() => {
 			this.rooms.delete(id);
 		}, this.timeout);
