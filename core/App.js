@@ -1,6 +1,10 @@
 
+const path = require('path');
 const http = require('http');
+const querystring = require('querystring');
+
 const RoomManager = require('./RoomManager');
+const HttpException = require('./HttpException');
 
 const DefaultConfig = {
 	host: 'localhost',
@@ -8,63 +12,93 @@ const DefaultConfig = {
 	maxRoomLimit: 1000,
 };
 
-function loadAPI(path) {
-	try {
-		return require('../api' + path);
-	} catch (error) {
-	}
-}
-
-function readAll(stream) {
+/**
+ * Read an object from JSON stream
+ * @param {ReadableStream} stream
+ * @return {Promise<object>}
+ */
+function readJSON(stream) {
 	return new Promise(function (resolve, reject) {
-		let body = [];
+		let trunks = [];
 
-		stream.on('data', chunk => body.push(chunk));
-
-		stream.on('end', () => {
-			let input = Buffer.concat(body).toString();
-			try {
-				let json = JSON.parse(input);
-				resolve(json);
-			} catch (error) {
-				reject(error);
-			}
+		stream.on('data', function (trunk) {
+			trunks.push(trunk);
 		});
 
 		stream.on('error', reject);
+
+		stream.on('end', function () {
+			let input = Buffer.concat(trunks).toString();
+			resolve(JSON.parse(input));
+		});
 	});
 }
 
+/**
+ * Handle client requests
+ * @param {http.IncomingMessage} request
+ * @param {http.ServerResponse} response
+ */
 async function requestListener(request, response) {
-	let handler = loadAPI(request.url);
-	if (!handler) {
-		response.writeHead(404);
-		response.end();
-		return;
+	// Parse path and query string
+	let api = request.url;
+	let params = {};
+	let q = request.url.indexOf('?');
+	if (q >= 0) {
+		api = request.url.substr(0, q);
+		try {
+			params = querystring.parse(request.url.substr(q + 1));
+		} catch (error) {
+			// Do nothing
+		}
 	}
 
+	// Load API
+	let handler = null;
 	try {
-		let input = await readAll(request);
-		let output = handler.call(this, input);
-		if (typeof output === 'number') {
-			response.writeHead(output);
-			response.end();
-		} else if (output) {
-			response.writeHead(200);
-			if (output.toJSON) {
-				output = output.toJSON();
-			}
-			if (typeof output !== 'string') {
-				output = JSON.stringify(output);
-			}
-			response.end(output);
+		handler = require(path.join('..', 'api', api));
+	} catch (error) {
+		response.writeHead(404);
+		return response.end();
+	}
+
+	// Handle improper requests or unexpected errors
+	if (!handler) {
+		response.writeHead(500);
+		return response.end();
+	} else if (!handler[request.method]) {
+		response.writeHead(400);
+		return response.end();
+	}
+
+	// Call API
+	let output = null;
+	try {
+		if (request.method === 'POST') {
+			let input = await readJSON(request);
+			output = handler[request.method].call(this, params, input);
+		} else if (request.method === 'GET' || request.method === 'DELETE') {
+			output = handler[request.method].call(this, params);
 		} else {
-			response.writeHead(200);
-			reponse.end();
+			throw new HttpException(405, 'Method not allowed');
 		}
 	} catch (error) {
-		response.writeHead(400);
-		response.end(error.message);
+		response.writeHead(error.code);
+		return response.end(error.message);
+	}
+
+	if (output) {
+		response.writeHead(200);
+		if (output.toJSON && typeof output.toJSON === 'function') {
+			output = output.toJSON();
+		}
+		if (typeof output !== 'string') {
+			output = JSON.stringify(output);
+		}
+		response.end(output);
+	} else {
+		response.writeHead(200);
+		reponse.end();
 	}
 }
 

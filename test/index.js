@@ -25,12 +25,13 @@ fs.readdir(testDir, async (err, files) => {
 			await test.run();
 		} catch (error) {
 			console.error(error);
-			process.exit(1);
+			return process.exit(1);
 		}
 	}
 
 	await server.close();
 	console.log('Server is stopped.');
 
+	console.log('Tests are all finished.');
 	process.exit(0);
 });

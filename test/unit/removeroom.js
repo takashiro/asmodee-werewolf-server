@@ -1,18 +1,18 @@
 
-const {post} = require('../util');
+const {POST, DELETE} = require('../util');
 const assert = require('assert');
 
 module.exports = {
 	name: 'Remove a room',
 	run: async function () {
 		let roles = [10, 10, 10, 10];
-		let room = await post('/createroom', {roles});
+		let room = await POST('/room', {roles});
 
 		assert(room.id > 0);
 		assert(room.ownerKey);
 
 		try {
-			await post('/removeroom', {
+			await DELETE('/room', {
 				id: room.id,
 				ownerKey: 1234,
 			});
@@ -21,7 +21,7 @@ module.exports = {
 			assert(error === 404);
 		}
 
-		let res = await post('/removeroom', {
+		let res = await DELETE('/room', {
 			id: room.id,
 			ownerKey: room.ownerKey
 		});

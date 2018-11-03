@@ -1,5 +1,6 @@
 
 const http = require('http');
+const querystring = require('querystring');
 
 function request(method, api, data = null) {
 	return new Promise(function (resolve, reject) {
@@ -39,11 +40,25 @@ function request(method, api, data = null) {
 	});
 }
 
-function post(api, data = null) {
+function POST(api, data = null) {
 	return request('POST', api, data);
 }
 
-function array_compare(arr1, arr2) {
+function GET(api, data = null) {
+	if (data) {
+		api += '?' + querystring.stringify(data);
+	}
+	return request('GET', api);
+}
+
+function DELETE(api, data = null) {
+	if (data) {
+		api += '?' + querystring.stringify(data);
+	}
+	return request('DELETE', api);
+}
+
+function arrayCompare(arr1, arr2) {
 	if (arr1.length !== arr2.length) {
 		return false;
 	}
@@ -59,6 +74,8 @@ function array_compare(arr1, arr2) {
 
 module.exports = {
 	request,
-	post,
-	array_compare,
+	POST,
+	GET,
+	DELETE,
+	arrayCompare,
 };
