@@ -29,7 +29,7 @@ fs.readdir(testDir, async (err, files) => {
 		}
 	}
 
-	await server.close();
+	await server.stop();
 	console.log('Server is stopped.');
 
 	console.log('Tests are all finished.');

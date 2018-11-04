@@ -127,7 +127,7 @@ class App {
 	/**
 	 * Shutdown server
 	 */
-	close() {
+	stop() {
 		return new Promise((resolve) => {
 			this.server.close(resolve);
 		});
