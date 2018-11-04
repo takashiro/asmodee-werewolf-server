@@ -1,6 +1,5 @@
 
 const getRoom = require('./room').GET;
-const Room = require('../core/Room');
 const HttpException = require('../core/HttpException');
 
 function GET(param) {
