@@ -1,49 +1,62 @@
 
-function DeclareEnum(){
-	let object = {};
-	for(let i = 0; i < arguments.length; i++){
-		object[arguments[i]] = i;
+const Team = require('./Team');
+
+let RoleValue = 0;
+
+class Role {
+
+	constructor(key, team) {
+		this.value = RoleValue++;
+		this.key = key;
+		this.team = team;
 	}
-	return object;
+
+	toNum() {
+		return this.value;
+	}
+
+	static fromNum(num) {
+		if (0 <= num && num < Role.enums.length) {
+			return Role.enums[num];
+		} else {
+			return Role.Unknown;
+		}
+	}
+
 }
 
-const Role = DeclareEnum(
-	'Unknown',
+const RoleList = [
+	new Role('Unknown', Team.Unknown),
 
-	// Team Werewolf
-	'Werewolf',
-	'AlphaWolf',
-	'WhiteAlphaWolf',
-	'WolfBeauty',
-	'SecretWolf',
-	'Demon',
+	new Role('Werewolf', Team.Werewolf),
+	new Role('AlphaWolf', Team.Werewolf),
+	new Role('WhiteAlphaWolf', Team.Werewolf),
+	new Role('WolfBeauty', Team.Werewolf),
+	new Role('SecretWolf', Team.Werewolf),
+	new Role('Demon', Team.Werewolf),
+	new Role('Villager', Team.Villager),
+	new Role('Seer', Team.Villager),
+	new Role('Tamer', Team.Villager),
+	new Role('Witch', Team.Villager),
+	new Role('Hunter', Team.Villager),
+	new Role('Guard', Team.Villager),
+	new Role('Magician', Team.Villager),
+	new Role('Idiot', Team.Villager),
+	new Role('Elder', Team.Villager),
+	new Role('Knight', Team.Villager),
+	new Role('DreamWeaver', Team.Villager),
+	new Role('Rogue', Team.Villager),
+	new Role('Crow', Team.Villager),
+	new Role('Cupid', Team.Other),
+	new Role('FeralChild', Team.Other),
+	new Role('Thief', Team.Other),
+	new Role('Bombman', Team.Other),
+];
 
-	// Team Villager
-	'Villager',
-	'Seer',
-	'Tamer',
-	'Witch',
-	'Hunter',
-	'Guard',
-	'Magician',
-	'Idiot',
-	'Elder',
-	'Knight',
-	'Dementor',
-	'Rogue',
-	'Crow',
+for (let role of RoleList) {
+	Role[role.key] = role;
+}
 
-	// Others
-	'Cupid',
-	'FeralChild',
-	'Thief',
-	'Bombman',
-
-	'MaxLimit'
-);
-
-Role.isWerewolf = function(role) {
-	return Role.Unknown < role && role < Role.Villager;
-};
+Role.enums = RoleList;
 
 module.exports = Role;
