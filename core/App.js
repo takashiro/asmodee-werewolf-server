@@ -104,12 +104,19 @@ async function requestListener(request, response) {
 
 class App {
 
+	/**
+	 * Create an application
+	 * @param {object} config
+	 */
 	constructor(config) {
 		this.config = Object.assign({}, DefaultConfig, config);
 		this.roomManager = new RoomManager(this.config.maxRoomLimit);
 		this.server = http.createServer(requestListener.bind(this));
 	}
 
+	/**
+	 * Start server to accept requests
+	 */
 	start() {
 		console.log(`Listening at port ${this.config.port}...`);
 		return new Promise((resolve) => {
@@ -117,6 +124,9 @@ class App {
 		});
 	}
 
+	/**
+	 * Shutdown server
+	 */
 	close() {
 		return new Promise((resolve) => {
 			this.server.close(resolve);
