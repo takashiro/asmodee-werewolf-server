@@ -51,6 +51,8 @@ const RoleList = [
 	new Role('FeralChild', Team.Other),
 	new Role('Thief', Team.Other),
 	new Role('Bombman', Team.Other),
+	new Role('Gargoyle', Team.Werewolf),
+	new Role('GraveyardKeeper', Team.Villager),
 ];
 
 for (let role of RoleList) {
