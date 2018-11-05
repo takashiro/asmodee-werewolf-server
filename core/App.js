@@ -83,8 +83,14 @@ async function requestListener(request, response) {
 			throw new HttpException(405, 'Method not allowed');
 		}
 	} catch (error) {
-		response.writeHead(error.code);
-		return response.end(error.message);
+		if (error instanceof HttpException) {
+			response.writeHead(error.code);
+			return response.end(error.message);
+		} else {
+			console.error(error);
+			response.writeHead(500);
+			return response.end(String(error));
+		}
 	}
 
 	if (output) {
