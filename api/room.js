@@ -69,7 +69,7 @@ function DELETE(param) {
 		throw new HttpException(404);
 	}
 
-	this.roomManager.delete(room);
+	this.roomManager.delete(room.id);
 	return {id: room.id};
 };
 
