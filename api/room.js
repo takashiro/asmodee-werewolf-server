@@ -1,6 +1,7 @@
 
 const Room = require('../core/Room');
 const HttpException = require('../core/HttpException');
+const Role = require('../game/Role');
 
 function POST(param, input) {
 	if (!input.roles || !(input.roles instanceof Array)) {
@@ -13,8 +14,8 @@ function POST(param, input) {
 
 	let roles = [];
 	for (let role of input.roles) {
-		role = parseInt(role, 10);
-		if (!isNaN(role)) {
+		role = Role.fromNum(role);
+		if (role !== Role.Unknown) {
 			roles.push(role);
 		}
 	}

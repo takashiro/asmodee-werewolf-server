@@ -22,7 +22,7 @@ class Card {
 	 */
 	toJSON() {
 		return {
-			role: this.role
+			role: this.role.toNum()
 		};
 	}
 

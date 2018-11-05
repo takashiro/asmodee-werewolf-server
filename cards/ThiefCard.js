@@ -1,6 +1,7 @@
 
 const Card = require('../game/Card');
 const Role = require('../game/Role');
+const Team = require('../game/Team');
 
 class ThiefCard extends Card {
 
@@ -24,13 +25,13 @@ class ThiefCard extends Card {
 			}
 		}
 
-		markUsed(card => card.role == Role.Thief);
+		markUsed(card => card.role === Role.Thief);
 
 		this.cards = [null, null];
 
 		this.cards[0] = room.fetchCard();
-		if (this.cards[0] && Role.isWerewolf(this.cards[0].role)) {
-			markUsed(card => Role.isWerewolf(card.role));
+		if (this.cards[0] && this.cards[0].role.team === Team.Werewolf) {
+			markUsed(card => card.role.team === Team.Werewolf);
 		}
 
 		this.cards[1] = room.fetchCard();
@@ -44,10 +45,10 @@ class ThiefCard extends Card {
 		let result = super.toJSON();
 		result.cards = [0, 0];
 		if (this.cards[0]) {
-			result.cards[0] = this.cards[0].role;
+			result.cards[0] = this.cards[0].role.toNum();
 		}
 		if (this.cards[1]) {
-			result.cards[1] = this.cards[1].role;
+			result.cards[1] = this.cards[1].role.toNum();
 		}
 		return result;
 	}

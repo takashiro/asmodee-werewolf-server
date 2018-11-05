@@ -114,8 +114,8 @@ class Room {
 	 */
 	takeSeat(seat, key) {
 		let card = this.seatMap.get(seat);
-		if (!card.key) {
-			card.key = key;
+		if (!card.ownerKey) {
+			card.ownerKey = key;
 			return card;
 		} else {
 			return null;
@@ -143,7 +143,7 @@ class Room {
 		return {
 			id: this.id,
 			salt: this.salt,
-			roles: this.roles
+			roles: this.roles.map(role => role.toNum())
 		};
 	}
 

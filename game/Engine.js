@@ -5,18 +5,18 @@ const cards = require('../cards');
 class Engine {
 
 	constructor() {
-		this.cardMap = [];
+		this.cardMap = new Map;
 		for (let card of cards) {
 			this.registerCard(card);
 		}
 	}
 
 	/**
-	 * Register a new card type
-	 * @param {Card} card
+	 * Register a new card class
+	 * @param {Card} cardClass
 	 */
-	registerCard(card) {
-		this.cardMap[card.role] = card;
+	registerCard(cardClass) {
+		this.cardMap.set(cardClass.role, cardClass);
 	}
 
 	/**
@@ -25,7 +25,7 @@ class Engine {
 	 * @return {Card} card instance
 	 */
 	createCard(role) {
-		const CustomCard = this.cardMap[role];
+		const CustomCard = this.cardMap.get(role);
 		if (CustomCard) {
 			return new CustomCard(role);
 		} else {
