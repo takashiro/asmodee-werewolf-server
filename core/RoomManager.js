@@ -10,6 +10,13 @@ class RoomManager {
 	}
 
 	/**
+	 * The number of existing rooms
+	 */
+	get size() {
+		return this.rooms.size;
+	}
+
+	/**
 	 * Add a room
 	 * @param {Room} room
 	 * @return {boolean} whether the room is successfully added
@@ -22,6 +29,10 @@ class RoomManager {
 		nextRoomId++;
 		if (nextRoomId > this.capacity) {
 			nextRoomId = 1;
+		}
+
+		if (this.rooms.has(nextRoomId)) {
+			return false;
 		}
 
 		room.id = nextRoomId;
