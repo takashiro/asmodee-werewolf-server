@@ -24,7 +24,7 @@ fs.readdir(testDir, async (err, files) => {
 		try {
 			await test.run();
 		} catch (error) {
-			console.error('Error: ' + String(error));
+			console.error(error.stack);
 			return process.exit(1);
 		}
 	}

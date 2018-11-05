@@ -2,12 +2,15 @@
 const {POST, GET, DELETE} = require('../util');
 const assert = require('assert');
 
+const Role = require('../../game/Role');
+
 module.exports = {
 	name: 'Fetch role',
 	run: async function () {
 		let roles = [];
 		for (let i = 0; i < 10; i++) {
-			roles.push(Math.floor(Math.random() * 0xFF));
+			let role = Role.enums[Math.floor(Math.random() * Role.enums.length)];
+			roles.push(role.toNum());
 		}
 
 		let res = await POST('room', {roles});
