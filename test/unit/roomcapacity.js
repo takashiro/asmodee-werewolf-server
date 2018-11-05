@@ -1,5 +1,5 @@
 
-const {POST, DELETE} = require('../util');
+const {POST, GET, DELETE} = require('../util');
 const assert = require('assert');
 
 module.exports = {
@@ -8,24 +8,34 @@ module.exports = {
 		let roles = [10, 10, 10, 10];
 		let rooms = [];
 
-		let error = null;
-		try {
-			for (let i = 0; i < 10; i++) {
-				let room = await POST('/room', {roles});
-				rooms.push(room);
-			}
-		} catch (e) {
-			error = e;
+		let res = await GET('status');
+		assert.strictEqual(res.status, 200);
+
+		let old_status = res.data;
+		assert(old_status.capacity > 0);
+		assert.strictEqual(old_status.roomNum, 0);
+
+		for (let i = 0; i < old_status.capacity; i++) {
+			res = await POST('room', {roles});
+			assert.strictEqual(res.status, 200);
+			rooms.push(res.data);
 		}
-		assert.strictEqual(error, 500);
+
+		for (let i = 0; i < 3; i++) {
+			res = await POST('room', {roles});
+			assert.strictEqual(res.status, 500);
+		}
 
 		for (let room of rooms) {
-			let res = await DELETE('/room', {
+			res = await DELETE('room', {
 				id: room.id,
 				ownerKey: room.ownerKey,
 			});
-
-			assert(res.id === room.id);
+			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.data.id, room.id);
 		}
+
+		res = await GET('status');
+		assert.strictEqual(res.data.roomNum, 0);
 	},
 };

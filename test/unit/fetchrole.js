@@ -1,5 +1,5 @@
 
-const {POST, GET} = require('../util');
+const {POST, GET, DELETE} = require('../util');
 const assert = require('assert');
 
 module.exports = {
@@ -10,41 +10,26 @@ module.exports = {
 			roles.push(Math.floor(Math.random() * 0xFF));
 		}
 
-		let room = await POST('/room', {roles});
+		let res = await POST('room', {roles});
+		assert.strictEqual(res.status, 200);
+		let room = res.data;
 
-		let res = null;
-		try {
-			res = await GET('/role', {id: room.id});
-		} catch (error) {
-			res = error;
-		}
-		assert.strictEqual(res, 400);
+		res = await GET('role', {id: room.id});
+		assert.strictEqual(res.status, 400);
 
-		res = null;
-		try {
-			res = await GET('/role', {id: room.id, seat: roles.length + 1});
-		} catch (error) {
-			res = error;
-		}
-		assert.strictEqual(res, 400);
+		res = await GET('role', {id: room.id, seat: roles.length + 1});
+		assert.strictEqual(res.status, 400);
 
-		res = null;
-		try {
-			res = await GET('/role', {id: room.id, seat: 3, key: 'test'});
-		} catch (error) {
-			res = error;
-		}
-		assert.strictEqual(res, 403);
+		res = await GET('role', {id: room.id, seat: 3, key: 'test'});
+		assert.strictEqual(res.status, 403);
 
-		res = await GET('/role', {id: room.id, seat: 3, key: Math.floor(Math.random() * 0xFFFF)});
-		assert(roles.indexOf(res.role) >= 0);
+		res = await GET('role', {id: room.id, seat: 3, key: Math.floor(Math.random() * 0xFFFF)});
+		assert(roles.indexOf(res.data.role) >= 0);
 
-		res = null;
-		try {
-			res = await GET('/role', {id: room.id, seat: 3, key: Math.floor(Math.random() * 0xFFFF)});
-		} catch (error) {
-			res = error;
-		}
-		assert.strictEqual(res, 409);
+		res = await GET('role', {id: room.id, seat: 3, key: Math.floor(Math.random() * 0xFFFF)});
+		assert.strictEqual(res.status, 409);
+
+		res = await DELETE('room', {id: room.id, ownerKey: room.ownerKey});
+		assert.strictEqual(res.status, 200);
 	},
 };

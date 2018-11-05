@@ -8,12 +8,8 @@ function request(method, api, data = null) {
 			method: method,
 			host: 'localhost',
 			port: 2620,
-			path: api,
+			path: '/' + api,
 		}, res => {
-			if (res.statusCode !== 200) {
-				return reject(res.statusCode);
-			}
-
 			let trunks = [];
 
 			res.on('data', trunk => {
@@ -21,12 +17,20 @@ function request(method, api, data = null) {
 			});
 
 			res.on('end', () => {
-				let reply = Buffer.concat(trunks).toString();
-				try {
-					let json = JSON.parse(reply);
-					resolve(json);
-				} catch (error) {
-					reject(error);
+				let result = {
+					status: res.statusCode,
+					data: Buffer.concat(trunks).toString(),
+				};
+
+				if (res.statusCode === 200) {
+					try {
+						result.data = JSON.parse(result.data);
+						resolve(result);
+					} catch (error) {
+						reject(error);
+					}
+				} else {
+					resolve(result);
 				}
 			});
 		});
