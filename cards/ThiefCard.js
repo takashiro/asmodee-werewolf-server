@@ -1,11 +1,11 @@
 
-const Card = require('../core/Card');
-const Role = require('../core/Role');
+const Card = require('../game/Card');
+const Role = require('../game/Role');
 
 class ThiefCard extends Card {
 
-	constructor() {
-		super(Role.Thief);
+	constructor(role) {
+		super(role);
 	}
 
 	onShuffled(room) {
@@ -54,5 +54,5 @@ class ThiefCard extends Card {
 
 }
 
-ThiefCard.Role = Role.Thief;
+ThiefCard.role = Role.Thief;
 module.exports = ThiefCard;

@@ -5,7 +5,7 @@ class Card {
 	 * Create a card instance for a role
 	 * @param {Role} role role enumeration
 	 */
-	constructor(role = 0) {
+	constructor(role) {
 		this.role = role;
 		this.used = false;
 	}
