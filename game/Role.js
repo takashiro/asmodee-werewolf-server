@@ -53,6 +53,13 @@ const RoleList = [
 	new Role('Bombman', Team.Other),
 	new Role('Gargoyle', Team.Werewolf),
 	new Role('GraveyardKeeper', Team.Villager),
+	new Role('Tiangou', Team.Werewolf),
+	new Role('Luna', Team.Villager),
+	new Role('WolfGrandma', Team.Werewolf),
+	new Role('RedHat', Team.Villager),
+	new Role('Doppelganger', Team.Other),
+	new Role('Revenger', Team.Other),
+	new Role('Hybrid', Team.Other),
 ];
 
 for (let role of RoleList) {
