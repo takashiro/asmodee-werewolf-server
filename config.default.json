@@ -1,5 +1,4 @@
 {
-	"host": "localhost",
-	"port": 2620,
+	"socket": "/var/run/asmodee-werewolf/asmodee-werewolf.sock",
 	"roomNumLimit": 1000
 }

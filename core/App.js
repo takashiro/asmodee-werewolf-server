@@ -7,8 +7,7 @@ const RoomManager = require('./RoomManager');
 const HttpException = require('./HttpException');
 
 const DefaultConfig = {
-	host: 'localhost',
-	port: 2620,
+	socket: '/var/run/asmodee-werewolf/asmodee-werewolf.sock',
 	maxRoomLimit: 1000,
 };
 
@@ -124,9 +123,8 @@ class App {
 	 * Start server to accept requests
 	 */
 	start() {
-		console.log(`Listening at port ${this.config.port}...`);
 		return new Promise((resolve) => {
-			this.server.listen(this.config.port, this.config.host, resolve);
+			this.server.listen(this.config.socket, resolve);
 		});
 	}
 
