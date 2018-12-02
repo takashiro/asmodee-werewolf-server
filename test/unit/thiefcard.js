@@ -1,5 +1,5 @@
 
-const {POST, GET, DELETE} = require('../util');
+const net = require('../net');
 const assert = require('assert');
 
 const Role = require('../../game/Role');
@@ -10,12 +10,12 @@ module.exports = {
 	run: async function () {
 		for (let t = 0; t < 10; t++) {
 			let roles = [Role.Werewolf, Role.Thief, Role.Villager].map(role => role.toNum());
-			let res = await POST('room', {roles});
+			let res = await net.POST('room', {roles});
 
 			let room = res.data;
 			assert.strictEqual(room.roles.length, 3);
 
-			res = await GET('role', {id: room.id, seat: 1, key: Math.floor(Math.random() * 0xFFFF)});
+			res = await net.GET('role', {id: room.id, seat: 1, key: Math.floor(Math.random() * 0xFFFF)});
 			assert.strictEqual(Role.fromNum(res.data.role), Role.Thief);
 
 			let cards = res.data.cards.map(role => Role.fromNum(role));
@@ -23,7 +23,7 @@ module.exports = {
 			assert(cards.indexOf(Role.Werewolf) >= 0);
 			assert(cards.indexOf(Role.Villager) >= 0);
 
-			res = await DELETE('room', {id: room.id, ownerKey: room.ownerKey});
+			res = await net.DELETE('room', {id: room.id, ownerKey: room.ownerKey});
 			assert.strictEqual(res.data.id, room.id);
 		}
 
@@ -31,11 +31,11 @@ module.exports = {
 		for (let t = 0; t < 10; t++) {
 			let roles = [Role.Werewolf, Role.Werewolf, Role.Werewolf, Role.AlphaWolf, Role.Thief, Role.Seer];
 
-			let res = await POST('room', {roles: roles.map(role => role.toNum())});
+			let res = await net.POST('room', {roles: roles.map(role => role.toNum())});
 			assert.strictEqual(res.status, 200);
 
 			let room = res.data;
-			res = await GET('roles', {id: room.id, ownerKey: room.ownerKey});
+			res = await net.GET('roles', {id: room.id, ownerKey: room.ownerKey});
 			assert.strictEqual(res.status, 200);
 
 			let players = res.data;

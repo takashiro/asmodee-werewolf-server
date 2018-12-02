@@ -1,5 +1,5 @@
 
-const {POST, GET, DELETE} = require('../util');
+const net = require('../net');
 const assert = require('assert');
 
 const Role = require('../../game/Role');
@@ -13,23 +13,23 @@ module.exports = {
 			roles.push(role.toNum());
 		}
 
-		let res = await POST('room', {roles});
+		let res = await net.POST('room', {roles});
 		assert.strictEqual(res.status, 200);
 		let room = res.data;
 
-		res = await GET('roles', {id: room.id + 1});
+		res = await net.GET('roles', {id: room.id + 1});
 		assert.strictEqual(res.status, 404);
 
-		res = await GET('roles', {id: room.id});
+		res = await net.GET('roles', {id: room.id});
 		assert.strictEqual(res.status, 403);
 
-		res = await GET('roles', {id: room.id, ownerKey: room.ownerKey});
+		res = await net.GET('roles', {id: room.id, ownerKey: room.ownerKey});
 		assert.strictEqual(res.status, 200);
 		for (let {seat, card} of res.data) {
 			assert(roles.indexOf(card.role) >= 0);
 		}
 
-		res = await DELETE('room', {id: room.id, ownerKey: room.ownerKey});
+		res = await net.DELETE('room', {id: room.id, ownerKey: room.ownerKey});
 		assert.strictEqual(res.status, 200);
 	},
 };

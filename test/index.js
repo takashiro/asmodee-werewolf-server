@@ -2,6 +2,7 @@
 const fs = require('fs');
 
 const App = require('../core/App');
+const net = require('./net');
 
 const testDir = __dirname + '/unit';
 
@@ -12,7 +13,13 @@ fs.readdir(testDir, async (err, files) => {
 		return;
 	}
 
+	const port = 10000 + Math.floor(Math.random() * 55536);
+	net.port = port;
 	const server = new App({
+		socket: {
+			host: 'localhost',
+			port: port,
+		},
 		maxRoomLimit: 10,
 	});
 	await server.start();

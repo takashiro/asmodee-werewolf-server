@@ -1,5 +1,5 @@
 
-const {POST, GET, DELETE} = require('../util');
+const net = require('../net');
 const assert = require('assert');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
 		let roles = [10, 10, 10, 10];
 		let rooms = [];
 
-		let res = await GET('status');
+		let res = await net.GET('status');
 		assert.strictEqual(res.status, 200);
 
 		let old_status = res.data;
@@ -16,18 +16,18 @@ module.exports = {
 		assert.strictEqual(old_status.roomNum, 0);
 
 		for (let i = 0; i < old_status.capacity; i++) {
-			res = await POST('room', {roles});
+			res = await net.POST('room', {roles});
 			assert.strictEqual(res.status, 200);
 			rooms.push(res.data);
 		}
 
 		for (let i = 0; i < 3; i++) {
-			res = await POST('room', {roles});
+			res = await net.POST('room', {roles});
 			assert.strictEqual(res.status, 500);
 		}
 
 		for (let room of rooms) {
-			res = await DELETE('room', {
+			res = await net.DELETE('room', {
 				id: room.id,
 				ownerKey: room.ownerKey,
 			});
@@ -35,7 +35,7 @@ module.exports = {
 			assert.strictEqual(res.data.id, room.id);
 		}
 
-		res = await GET('status');
+		res = await net.GET('status');
 		assert.strictEqual(res.data.roomNum, 0);
 	},
 };

@@ -1,5 +1,5 @@
 
-const {POST, GET, DELETE} = require('../util');
+const net = require('../net');
 const assert = require('assert');
 
 const Role = require('../../game/Role');
@@ -13,26 +13,26 @@ module.exports = {
 			roles.push(role.toNum());
 		}
 
-		let res = await POST('room', {roles});
+		let res = await net.POST('room', {roles});
 		assert.strictEqual(res.status, 200);
 		let room = res.data;
 
-		res = await GET('role', {id: room.id});
+		res = await net.GET('role', {id: room.id});
 		assert.strictEqual(res.status, 400);
 
-		res = await GET('role', {id: room.id, seat: roles.length + 1});
+		res = await net.GET('role', {id: room.id, seat: roles.length + 1});
 		assert.strictEqual(res.status, 400);
 
-		res = await GET('role', {id: room.id, seat: 3, key: 'test'});
+		res = await net.GET('role', {id: room.id, seat: 3, key: 'test'});
 		assert.strictEqual(res.status, 403);
 
-		res = await GET('role', {id: room.id, seat: 3, key: Math.floor(Math.random() * 0xFFFF)});
+		res = await net.GET('role', {id: room.id, seat: 3, key: Math.floor(Math.random() * 0xFFFF)});
 		assert(roles.indexOf(res.data.role) >= 0);
 
-		res = await GET('role', {id: room.id, seat: 3, key: Math.floor(Math.random() * 0xFFFF)});
+		res = await net.GET('role', {id: room.id, seat: 3, key: Math.floor(Math.random() * 0xFFFF)});
 		assert.strictEqual(res.status, 409);
 
-		res = await DELETE('room', {id: room.id, ownerKey: room.ownerKey});
+		res = await net.DELETE('room', {id: room.id, ownerKey: room.ownerKey});
 		assert.strictEqual(res.status, 200);
 	},
 };
