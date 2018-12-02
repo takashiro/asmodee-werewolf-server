@@ -26,7 +26,9 @@ Introduction
 
 It's a small online app to arrange role cards of the board game Werewolves of Miller's Hollow.
 
-Web Client: https://github.com/takashiro/asmodee-werewolf
+Web Client: https://github.com/takashiro/asmodee-werewolf-react
+
+WeChat App: https://github.com/takashiro/asmodee-werewolf-wechatapp
 
 Running Environment
 -------------------
