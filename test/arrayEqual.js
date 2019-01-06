@@ -1,5 +1,5 @@
 
-function arrayCompare(arr1, arr2) {
+function arrayEqual(arr1, arr2) {
 	if (arr1.length !== arr2.length) {
 		return false;
 	}
@@ -13,6 +13,4 @@ function arrayCompare(arr1, arr2) {
 	return true;
 }
 
-module.exports = {
-	arrayCompare,
-};
+module.exports = arrayEqual;

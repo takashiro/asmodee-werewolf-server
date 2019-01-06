@@ -1,13 +1,12 @@
 
-const net = require('./test/net');
-const tests = require('./test/units');
+const HttpClient = require('./test/HttpClient');
 
 (async function () {
 	let localDebug = process.argv.some(argv => argv === '--local-debug');
 	const App = require('./' + (localDebug ? 'core' : 'test') + '/App');
 
+	// Start server application
 	const port = 10000 + Math.floor(Math.random() * 55536);
-	net.port = port;
 	const server = new App({
 		socket: {
 			host: 'localhost',
@@ -18,16 +17,19 @@ const tests = require('./test/units');
 	await server.start();
 	console.log('Server is started');
 
-	for (let test of tests) {
+	// Initialize HTTP client
+	let client = new HttpClient(port);
+
+	// Run tests
+	const tests = require('./test/units');
+	for (let UnitTest of tests) {
+		let test = new UnitTest;
+		test.setClient(client);
 		console.log(test.name + '...');
-		try {
-			await test.run();
-		} catch (error) {
-			console.error(error.stack);
-			return process.exit(1);
-		}
+		await test.run();
 	}
 
+	// Stop server application
 	await server.stop();
 	console.log('Server is stopped.');
 

@@ -1,29 +1,33 @@
 
-const net = require('../net');
 const assert = require('assert');
+const UnitTest = require('../UnitTest');
 
-module.exports = {
-	name: 'Remove a room',
-	run: async function () {
+class RemoveRoomTest extends UnitTest {
+
+	constructor() {
+		super('Remove a room');
+	}
+
+	async run() {
 		let roles = [10, 10, 10, 10];
-		let res = await net.POST('room', {roles});
-		assert.strictEqual(res.status, 200);
-
-		let room = res.data;
+		await this.post('room', {roles});
+		let room = await this.getJSON();
 		assert(room.id > 0);
 		assert(room.ownerKey);
 
-		res = await net.DELETE('room', {
+		await this.delete('room', {
 			id: room.id,
 			ownerKey: 1234,
 		});
-		assert.strictEqual(res.status, 404);
+		await this.assertError(404, 'The room does not exist');
 
-		res = await net.DELETE('room', {
+		await this.delete('room', {
 			id: room.id,
 			ownerKey: room.ownerKey
 		});
-		assert.strictEqual(res.status, 200);
-		assert.strictEqual(room.id, res.data.id);
-	},
-};
+		await this.assertJSON({id: room.id});
+	}
+
+}
+
+module.exports = RemoveRoomTest;

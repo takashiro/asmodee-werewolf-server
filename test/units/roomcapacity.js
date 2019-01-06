@@ -1,41 +1,47 @@
 
-const net = require('../net');
 const assert = require('assert');
+const UnitTest = require('../UnitTest');
 
-module.exports = {
-	name: 'Test room manager capacity',
-	run: async function () {
+class RoomCapacityTest extends UnitTest {
+
+	constructor() {
+		super('Test room manager capacity');
+	}
+
+	async run() {
 		let roles = [10, 10, 10, 10];
 		let rooms = [];
 
-		let res = await net.GET('status');
-		assert.strictEqual(res.status, 200);
-
-		let old_status = res.data;
+		await this.get('status');
+		let old_status = await this.getJSON();
 		assert(old_status.capacity > 0);
-		assert.strictEqual(old_status.roomNum, 0);
+		assert(old_status.roomNum === 0);
 
 		for (let i = 0; i < old_status.capacity; i++) {
-			res = await net.POST('room', {roles});
-			assert.strictEqual(res.status, 200);
-			rooms.push(res.data);
+			await this.post('room', {roles});
+			let room = await this.getJSON();
+			rooms.push(room);
 		}
 
 		for (let i = 0; i < 3; i++) {
-			res = await net.POST('room', {roles});
-			assert.strictEqual(res.status, 500);
+			await this.post('room', {roles});
+			await this.assertError(500, 'Too many rooms');
 		}
 
 		for (let room of rooms) {
-			res = await net.DELETE('room', {
+			await this.delete('room', {
 				id: room.id,
 				ownerKey: room.ownerKey,
 			});
-			assert.strictEqual(res.status, 200);
-			assert.strictEqual(res.data.id, room.id);
+			await this.assertJSON({id: room.id});
 		}
 
-		res = await net.GET('status');
-		assert.strictEqual(res.data.roomNum, 0);
-	},
-};
+		await this.get('status');
+		let status = await this.getJSON();
+		assert(status.capacity > 0);
+		assert(status.roomNum === 0);
+	}
+
+}
+
+module.exports = RoomCapacityTest;

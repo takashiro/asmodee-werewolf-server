@@ -67,7 +67,7 @@ function DELETE(param) {
 
 	let room = this.roomManager.get(roomId);
 	if (!room || room.ownerKey !== param.ownerKey) {
-		throw new HttpException(404);
+		throw new HttpException(404, 'The room does not exist');
 	}
 
 	this.roomManager.delete(room.id);

@@ -1,50 +1,54 @@
 
-const net = require('../net');
 const assert = require('assert');
+const UnitTest = require('../UnitTest');
 
 const Role = require('../../game/Role');
 const Team = require('../../game/Team');
 
-module.exports = {
-	name: 'Test thief card',
-	run: async function () {
+class ThiefCardTest extends UnitTest {
+
+	constructor() {
+		super('Test thief card');
+	}
+
+	async run() {
 		for (let t = 0; t < 10; t++) {
 			let roles = [Role.Werewolf, Role.Thief, Role.Villager].map(role => role.toNum());
-			let res = await net.POST('room', {roles});
+			await this.post('room', {roles});
+			let room = await this.getJSON();
+			assert(room.roles.length === 3);
 
-			let room = res.data;
-			assert.strictEqual(room.roles.length, 3);
+			await this.get('role', {id: room.id, seat: 1, key: Math.floor(Math.random() * 0xFFFF)});
+			let my = await this.getJSON();
+			assert(my.role === Role.Thief.toNum());
 
-			res = await net.GET('role', {id: room.id, seat: 1, key: Math.floor(Math.random() * 0xFFFF)});
-			assert.strictEqual(Role.fromNum(res.data.role), Role.Thief);
-
-			let cards = res.data.cards.map(role => Role.fromNum(role));
-			assert.strictEqual(cards.length, 2);
+			let cards = my.cards.map(role => Role.fromNum(role));
+			assert(cards.length === 2);
 			assert(cards.indexOf(Role.Werewolf) >= 0);
 			assert(cards.indexOf(Role.Villager) >= 0);
 
-			res = await net.DELETE('room', {id: room.id, ownerKey: room.ownerKey});
-			assert.strictEqual(res.data.id, room.id);
+			await this.delete('room', {id: room.id, ownerKey: room.ownerKey});
+			await this.assertJSON({id: room.id});
 		}
 
 		// Make sure the thief won't take 2 werewolves
 		for (let t = 0; t < 10; t++) {
 			let roles = [Role.Werewolf, Role.Werewolf, Role.Werewolf, Role.AlphaWolf, Role.Thief, Role.Seer];
 
-			let res = await net.POST('room', {roles: roles.map(role => role.toNum())});
-			assert.strictEqual(res.status, 200);
+			await this.post('room', {roles: roles.map(role => role.toNum())});
+			let room = await this.getJSON();
 
-			let room = res.data;
-			res = await net.GET('roles', {id: room.id, ownerKey: room.ownerKey});
-			assert.strictEqual(res.status, 200);
-
-			let players = res.data;
+			await this.get('roles', {id: room.id, ownerKey: room.ownerKey});
+			let players = await this.getJSON();
 			let room_roles = players.map(player => player.card).map(card => Role.fromNum(card.role));
-			assert.strictEqual(room_roles.length, roles.length - 2);
+			assert(room_roles.length === roles.length - 2);
 
 			let requested_werewolves = roles.filter(role => role.team === Team.Werewolf);
 			let werewolves = room_roles.filter(role => role.team === Team.Werewolf);
-			assert.strictEqual(requested_werewolves.length - 1, werewolves.length);
+			assert(requested_werewolves.length - 1 === werewolves.length);
 		}
-	},
-};
+	}
+
+}
+
+module.exports = ThiefCardTest;

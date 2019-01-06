@@ -1,35 +1,41 @@
 
-const net = require('../net');
 const assert = require('assert');
+const UnitTest =  require('../UnitTest');
 
 const Role = require('../../game/Role');
 
-module.exports = {
-	name: 'Fetch roles',
-	run: async function () {
+class FetchRolesTest extends UnitTest {
+
+	constructor() {
+		super('Fetch roles');
+	}
+
+	async run() {
 		let roles = [];
 		for (let i = 0; i < 10; i++) {
 			let role = Role.enums[Math.floor(Math.random() * Role.enums.length)];
 			roles.push(role.toNum());
 		}
 
-		let res = await net.POST('room', {roles});
-		assert.strictEqual(res.status, 200);
-		let room = res.data;
+		await this.post('room', {roles});
+		let room = await this.getJSON();
 
-		res = await net.GET('roles', {id: room.id + 1});
-		assert.strictEqual(res.status, 404);
+		await this.get('roles', {id: room.id + 1});
+		await this.assertError(404, 'The room does not exist');
 
-		res = await net.GET('roles', {id: room.id});
-		assert.strictEqual(res.status, 403);
+		await this.get('roles', {id: room.id});
+		await this.assertError(403, 'Invalid owner key');
 
-		res = await net.GET('roles', {id: room.id, ownerKey: room.ownerKey});
-		assert.strictEqual(res.status, 200);
-		for (let {seat, card} of res.data) {
+		await this.get('roles', {id: room.id, ownerKey: room.ownerKey});
+		let room_roles = await this.getJSON();
+		for (let {seat, card} of room_roles) {
 			assert(roles.indexOf(card.role) >= 0);
 		}
 
-		res = await net.DELETE('room', {id: room.id, ownerKey: room.ownerKey});
-		assert.strictEqual(res.status, 200);
-	},
-};
+		await this.delete('room', {id: room.id, ownerKey: room.ownerKey});
+		await this.assertJSON({id: room.id});
+	}
+
+}
+
+module.exports = FetchRolesTest;

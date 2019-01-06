@@ -1,38 +1,45 @@
 
-const net = require('../net');
 const assert = require('assert');
+const UnitTest = require('../UnitTest');
 
 const Role = require('../../game/Role');
 
-module.exports = {
-	name: 'Fetch role',
-	run: async function () {
+class FetchRoleTest extends UnitTest {
+
+	constructor() {
+		super('Fetch role');
+	}
+
+	async run() {
 		let roles = [];
 		for (let i = 0; i < 10; i++) {
 			let role = Role.enums[Math.floor(Math.random() * Role.enums.length)];
 			roles.push(role.toNum());
 		}
 
-		let res = await net.POST('room', {roles});
-		assert.strictEqual(res.status, 200);
-		let room = res.data;
+		await this.post('room', {roles});
+		let room = await this.getJSON();
 
-		res = await net.GET('role', {id: room.id});
-		assert.strictEqual(res.status, 400);
+		await this.get('role', {id: room.id});
+		await this.assertError(400, 'Invalid seat');
 
-		res = await net.GET('role', {id: room.id, seat: roles.length + 1});
-		assert.strictEqual(res.status, 400);
+		await this.get('role', {id: room.id, seat: roles.length + 1});
+		await this.assertError(400, 'Invalid seat');
 
-		res = await net.GET('role', {id: room.id, seat: 3, key: 'test'});
-		assert.strictEqual(res.status, 403);
+		await this.get('role', {id: room.id, seat: 3, key: 'test'});
+		await this.assertError(403, 'Invalid seat key');
 
-		res = await net.GET('role', {id: room.id, seat: 3, key: Math.floor(Math.random() * 0xFFFF)});
-		assert(roles.indexOf(res.data.role) >= 0);
+		await this.get('role', {id: room.id, seat: 3, key: Math.floor(Math.random() * 0xFFFF)});
+		let my = await this.getJSON();
+		assert(roles.indexOf(my.role) >= 0);
 
-		res = await net.GET('role', {id: room.id, seat: 3, key: Math.floor(Math.random() * 0xFFFF)});
-		assert.strictEqual(res.status, 409);
+		await this.get('role', {id: room.id, seat: 3, key: Math.floor(Math.random() * 0xFFFF)});
+		await this.assertError(409, 'The seat has been taken');
 
-		res = await net.DELETE('room', {id: room.id, ownerKey: room.ownerKey});
-		assert.strictEqual(res.status, 200);
-	},
-};
+		await this.delete('room', {id: room.id, ownerKey: room.ownerKey});
+		await this.assertJSON({id: room.id});
+	}
+
+}
+
+module.exports = FetchRoleTest;

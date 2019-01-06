@@ -1,23 +1,28 @@
 
-const net = require('../net');
-const {arrayCompare} = require('../util');
 const assert = require('assert');
+const arrayEqual = require('../arrayEqual');
+const UnitTest = require('../UnitTest');
 
-module.exports = {
-	name: 'Create a simple room',
-	run: async function () {
+class CreateRoomTest extends UnitTest {
+
+	constructor() {
+		super('Create a simple room');
+	}
+
+	async run() {
 		let roles = [1, 2, 3, 4];
 
-		let res = await net.POST('room', {roles});
-		assert.strictEqual(res.status, 200);
-
-		let room = res.data;
+		await this.post('room', {roles});
+		let room = await this.getJSON();
 		assert(room.id > 0);
 		assert(room.ownerKey);
 		assert(room.salt);
-		assert(arrayCompare(roles, room.roles));
+		assert(arrayEqual(roles, room.roles));
 
-		res = await net.DELETE('room', {id: room.id, ownerKey: room.ownerKey});
-		assert.strictEqual(res.status, 200);
-	},
+		await this.delete('room', {id: room.id, ownerKey: room.ownerKey});
+		await this.assertJSON({id: room.id});
+	}
+
 };
+
+module.exports = CreateRoomTest;
