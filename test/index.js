@@ -1,18 +1,10 @@
 
-const fs = require('fs');
-
 const App = require('../core/App');
 const net = require('./net');
 
-const testDir = __dirname + '/unit';
+const tests = require('./units');
 
-fs.readdir(testDir, async (err, files) => {
-	if (err) {
-		console.error('Failed to load tests.');
-		process.exit(1);
-		return;
-	}
-
+(async function () {
 	const port = 10000 + Math.floor(Math.random() * 55536);
 	net.port = port;
 	const server = new App({
@@ -25,8 +17,7 @@ fs.readdir(testDir, async (err, files) => {
 	await server.start();
 	console.log('Server is started');
 
-	for (let file of files) {
-		let test = require(testDir + '/' + file);
+	for (let test of tests) {
 		console.log(test.name + '...');
 		try {
 			await test.run();
@@ -41,4 +32,4 @@ fs.readdir(testDir, async (err, files) => {
 
 	console.log('Tests are all finished.');
 	process.exit(0);
-});
+})();
