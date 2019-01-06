@@ -121,6 +121,7 @@ class App {
 
 	/**
 	 * Start server to accept requests
+	 * @return {Promise}
 	 */
 	start() {
 		return new Promise((resolve) => {
@@ -130,6 +131,7 @@ class App {
 
 	/**
 	 * Shutdown server
+	 * @return {Promise}
 	 */
 	stop() {
 		return new Promise((resolve) => {

@@ -1,10 +1,11 @@
 
-const App = require('../core/App');
-const net = require('./net');
-
-const tests = require('./units');
+const net = require('./test/net');
+const tests = require('./test/units');
 
 (async function () {
+	let localDebug = process.argv.some(argv => argv === '--local-debug');
+	const App = require('./' + (localDebug ? 'core' : 'test') + '/App');
+
 	const port = 10000 + Math.floor(Math.random() * 55536);
 	net.port = port;
 	const server = new App({
