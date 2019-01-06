@@ -1,8 +1,8 @@
 
 function GET() {
 	return {
-		roomNum: this.roomManager.size,
-		capacity: this.roomManager.capacity,
+		roomNum: this.lobby.size,
+		capacity: this.lobby.capacity,
 	};
 }
 

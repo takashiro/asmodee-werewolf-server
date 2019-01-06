@@ -1,7 +1,7 @@
 
 let nextRoomId = 0;
 
-class RoomManager {
+class Lobby {
 
 	constructor(capacity = 1000)  {
 		this.rooms = new Map;
@@ -71,4 +71,4 @@ class RoomManager {
 
 }
 
-module.exports = RoomManager;
+module.exports = Lobby;

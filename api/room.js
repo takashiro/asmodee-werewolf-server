@@ -25,7 +25,7 @@ function POST(param, input) {
 	}
 
 	let room = new Room;
-	if (!this.roomManager.add(room)) {
+	if (!this.lobby.add(room)) {
 		throw new HttpException(500, 'Too many rooms');
 	}
 
@@ -47,7 +47,7 @@ function GET(param) {
 		throw new HttpException(400, 'Invalid room id');
 	}
 
-	let room = this.roomManager.get(id);
+	let room = this.lobby.get(id);
 	if (!room) {
 		throw new HttpException(404, 'The room does not exist');
 	}
@@ -65,12 +65,12 @@ function DELETE(param) {
 		throw new HttpException(400);
 	}
 
-	let room = this.roomManager.get(roomId);
+	let room = this.lobby.get(roomId);
 	if (!room || room.ownerKey !== param.ownerKey) {
 		throw new HttpException(404, 'The room does not exist');
 	}
 
-	this.roomManager.delete(room.id);
+	this.lobby.delete(room.id);
 	return {id: room.id};
 };
 

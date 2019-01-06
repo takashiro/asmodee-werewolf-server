@@ -5,7 +5,7 @@ const UnitTest = require('../UnitTest');
 class RoomCapacityTest extends UnitTest {
 
 	constructor() {
-		super('Test room manager capacity');
+		super('Test lobby capacity');
 	}
 
 	async run() {

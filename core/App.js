@@ -3,7 +3,7 @@ const path = require('path');
 const http = require('http');
 const querystring = require('querystring');
 
-const RoomManager = require('./RoomManager');
+const Lobby = require('./Lobby');
 const HttpException = require('./HttpException');
 
 const DefaultConfig = {
@@ -115,7 +115,7 @@ class App {
 	 */
 	constructor(config) {
 		this.config = Object.assign({}, DefaultConfig, config);
-		this.roomManager = new RoomManager(this.config.maxRoomLimit);
+		this.lobby = new Lobby(this.config.maxRoomLimit);
 		this.server = http.createServer(requestListener.bind(this));
 	}
 
