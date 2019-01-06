@@ -1,15 +1,15 @@
 
 const Room = require('../core/Room');
-const HttpException = require('../core/HttpException');
+const HttpError = require('../core/HttpError');
 const Role = require('../game/Role');
 
 function POST(param, input) {
 	if (!input.roles || !(input.roles instanceof Array)) {
-		throw new HttpException(400, 'Invalid roles');
+		throw new HttpError(400, 'Invalid roles');
 	}
 
 	if (input.roles.length > 50) {
-		throw new HttpException(400, 'Too many roles');
+		throw new HttpError(400, 'Too many roles');
 	}
 
 	let roles = [];
@@ -21,12 +21,12 @@ function POST(param, input) {
 	}
 
 	if (roles.length <= 0) {
-		throw new HttpException(400, 'All roles are invalid');
+		throw new HttpError(400, 'All roles are invalid');
 	}
 
 	let room = new Room;
 	if (!this.lobby.add(room)) {
-		throw new HttpException(500, 'Too many rooms');
+		throw new HttpError(500, 'Too many rooms');
 	}
 
 	room.setRoles(roles);
@@ -39,17 +39,17 @@ function POST(param, input) {
 
 function GET(param) {
 	if (!param.id) {
-		throw new HttpException(400, 'No room id');
+		throw new HttpError(400, 'No room id');
 	}
 
 	let id = parseInt(param.id, 10);
 	if (isNaN(id)) {
-		throw new HttpException(400, 'Invalid room id');
+		throw new HttpError(400, 'Invalid room id');
 	}
 
 	let room = this.lobby.get(id);
 	if (!room) {
-		throw new HttpException(404, 'The room does not exist');
+		throw new HttpError(404, 'The room does not exist');
 	}
 
 	return room;
@@ -57,17 +57,17 @@ function GET(param) {
 
 function DELETE(param) {
 	if (!param.id || !param.ownerKey) {
-		throw new HttpException(400);
+		throw new HttpError(400);
 	}
 
 	let roomId = parseInt(param.id, 10);
 	if (isNaN(roomId) || roomId <= 0) {
-		throw new HttpException(400);
+		throw new HttpError(400);
 	}
 
 	let room = this.lobby.get(roomId);
 	if (!room || room.ownerKey !== param.ownerKey) {
-		throw new HttpException(404, 'The room does not exist');
+		throw new HttpError(404, 'The room does not exist');
 	}
 
 	this.lobby.delete(room.id);

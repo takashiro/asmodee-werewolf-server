@@ -1,12 +1,12 @@
 
 const getRoom = require('./room').GET;
-const HttpException = require('../core/HttpException');
+const HttpError = require('../core/HttpError');
 
 function GET(param) {
 	let room = getRoom.call(this, param);
 
 	if (room.ownerKey != param.ownerKey) {
-		throw new HttpException(403, 'Invalid owner key');
+		throw new HttpError(403, 'Invalid owner key');
 	}
 
 	let seats = [];

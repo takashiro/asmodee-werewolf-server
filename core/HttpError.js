@@ -1,5 +1,5 @@
 
-class HttpException {
+class HttpError {
 
 	constructor(code, message) {
 		this.code = code;
@@ -8,4 +8,4 @@ class HttpException {
 
 }
 
-module.exports = HttpException;
+module.exports = HttpError;

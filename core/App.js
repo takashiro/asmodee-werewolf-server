@@ -4,7 +4,7 @@ const http = require('http');
 const querystring = require('querystring');
 
 const Lobby = require('./Lobby');
-const HttpException = require('./HttpException');
+const HttpError = require('./HttpError');
 
 const DefaultConfig = {
 	socket: '/var/run/asmodee-werewolf/asmodee-werewolf.sock',
@@ -79,10 +79,10 @@ async function requestListener(request, response) {
 		} else if (request.method === 'GET' || request.method === 'DELETE') {
 			output = handler[request.method].call(this, params);
 		} else {
-			throw new HttpException(405, 'Method not allowed');
+			throw new HttpError(405, 'Method not allowed');
 		}
 	} catch (error) {
-		if (error instanceof HttpException) {
+		if (error instanceof HttpError) {
 			response.writeHead(error.code);
 			return response.end(error.message);
 		} else {
