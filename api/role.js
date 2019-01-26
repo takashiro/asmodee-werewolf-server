@@ -6,11 +6,12 @@ function GET(param) {
 	let room = getRoom.call(this, param);
 
 	if (room.id <= 0) {
-		throw new HttpError(404);
+		throw new HttpError(404, 'Room does not exist');
 	}
 
+	let engine = room.getEngine();
 	let seat = parseInt(param.seat, 10);
-	if (isNaN(seat) || !room.hasSeat(seat)) {
+	if (isNaN(seat) || !engine.hasSeat(seat)) {
 		throw new HttpError(400, 'Invalid seat');
 	}
 
@@ -19,7 +20,7 @@ function GET(param) {
 		throw new HttpError(403, 'Invalid seat key');
 	}
 
-	let card = room.takeSeat(seat, key);
+	let card = engine.takeSeat(seat, key);
 	if (!card) {
 		throw new HttpError(409, 'The seat has been taken');
 	}

@@ -1,6 +1,8 @@
 
-const getRoom = require('./room').GET;
 const HttpError = require('../core/HttpError');
+const Timing = require('../game/Timing');
+
+const getRoom = require('./room').GET;
 
 function GET(param) {
 	let room = getRoom.call(this, param);
@@ -9,11 +11,14 @@ function GET(param) {
 		throw new HttpError(403, 'Invalid owner key');
 	}
 
-	let seats = [];
-	for (let [seat, card] of room.seatMap) {
+	const engine = room.getEngine();
+	const seats = [];
+	for (let player of engine.players) {
+		let card = {role: player.getRole().toNum()};
+		engine.trigger(Timing.TakeSeat, player, card);
 		seats.push({
-			seat: seat,
-			card: card.toJSON()
+			seat: player.getSeat(),
+			card,
 		});
 	}
 	return seats;

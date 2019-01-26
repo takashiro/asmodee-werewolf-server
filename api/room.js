@@ -29,8 +29,9 @@ function POST(param, input) {
 		throw new HttpError(500, 'Too many rooms');
 	}
 
-	room.setRoles(roles);
-	room.arrangeCards();
+	let engine = room.getEngine();
+	engine.setRoles(roles);
+	engine.start();
 
 	let info = room.toJSON();
 	info.ownerKey = room.ownerKey;
