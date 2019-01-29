@@ -10,6 +10,8 @@ function POST(param, input) {
 
 	if (input.roles.length > 50) {
 		throw new HttpError(400, 'Too many roles');
+	} else if (input.roles.length <= 0) {
+		throw new HttpError(400, 'At least one role must exist');
 	}
 
 	let roles = [];

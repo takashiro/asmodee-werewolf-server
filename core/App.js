@@ -28,7 +28,13 @@ function readJSON(stream) {
 
 		stream.on('end', function () {
 			let input = Buffer.concat(trunks).toString();
-			resolve(JSON.parse(input));
+			try {
+				input = JSON.parse(input);
+			} catch (error) {
+				console.error(error);
+				input = {};
+			}
+			resolve(input);
 		});
 	});
 }
