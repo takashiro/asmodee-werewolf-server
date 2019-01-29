@@ -1,4 +1,4 @@
-Werewolves of Miller's Hollow
+Werewolves of Miller's Hollow [![Build Status](https://travis-ci.org/takashiro/asmodee-werewolf-server.svg?branch=dev)](https://travis-ci.org/takashiro/asmodee-werewolf-server)
 ==========
 
 | Example Page |    https://werewolf.takashiro.cn      |
@@ -28,7 +28,7 @@ It's a small online app to arrange role cards of the board game Werewolves of Mi
 
 Web Client: https://github.com/takashiro/asmodee-werewolf-react
 
-WeChat App: https://github.com/takashiro/asmodee-werewolf-wechatapp
+WeChat App: https://github.com/takashiro/asmodee-werewolf-wechat
 
 Running Environment
 -------------------
