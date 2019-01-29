@@ -1,6 +1,5 @@
 
 const assert = require('assert');
-const arrayEqual = require('../arrayEqual');
 const UnitTest = require('../UnitTest');
 
 class CreateRoomTest extends UnitTest {
@@ -31,7 +30,10 @@ class CreateRoomTest extends UnitTest {
 		assert(room.id > 0);
 		assert(room.ownerKey);
 		assert(room.salt);
-		assert(arrayEqual(roles, room.roles));
+		assert(roles.length === room.roles.length);
+		for (let i = 0; i < roles.length; i++) {
+			assert(roles[i] === room.roles[i]);
+		}
 
 		await this.delete('room', {id: room.id, ownerKey: room.ownerKey});
 		await this.assertJSON({id: room.id});
