@@ -9,10 +9,22 @@ class EnterRoomTest extends UnitTest {
 	}
 
 	async run() {
+		// Invalid room id
+		await this.get('room');
+		await this.assertError(400, 'No room id');
+		await this.get('room', {id: 'abc'});
+		await this.assertError(400, 'Invalid room id');
+
+		// Enter a non-existing room
+		await this.get('room', {id: 123});
+		await this.assertError(404, 'The room does not exist');
+
+		// Create a room
 		let roles = [1, 2, 3, 4, 5];
 		await this.post('room', {roles});
 		let created_room = await this.getJSON();
 
+		// Enter the room
 		await this.get('room', {id: created_room.id});
 		let room = await this.getJSON();
 		assert(room.id === created_room.id);
