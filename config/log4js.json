@@ -1,0 +1,26 @@
+{
+    "appenders": {
+        "logToFile": {
+            "type": "file",
+            "maxLogSize": 100000000,
+            "filename": "log/asmodee-server.log"
+        },
+        "stdout": {
+            "type": "stdout"
+        }
+    },
+    "categories": {
+        "default": {
+            "appenders": [
+                "logToFile", "stdout"
+            ],
+            "level": "error"
+        },
+        "asmodee-server": {
+            "appenders": [
+                "logToFile", "stdout"
+            ],
+            "level": "info"
+        }
+    }
+}

@@ -10,7 +10,7 @@ class CreateRoomTest extends UnitTest {
 
 	async run() {
 		// Invalid role is configured
-		await this.post('room');
+		await this.post('room', {});
 		await this.assertError(400, 'Invalid roles');
 		await this.post('room', {roles: {}});
 		await this.assertError(400, 'Invalid roles');

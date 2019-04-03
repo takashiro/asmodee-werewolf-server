@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/takashiro/asmodee-werewolf-server/issues"
   },
-  "homepage": "https://github.com/takashiro/asmodee-werewolf-server#readme"
+  "homepage": "https://github.com/takashiro/asmodee-werewolf-server#readme",
+  "dependencies": {
+    "log4js": "^4.1.0"
+  }
 }

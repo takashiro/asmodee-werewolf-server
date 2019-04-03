@@ -30,7 +30,7 @@ class App {
 			return new Promise(function (resolve, reject) {
 				const appout = readline.createInterface({input: app.stdout});
 				appout.once('line', function (message) {
-					if (message === 'started') {
+					if (message.substring("Starting") !== "") {
 						resolve();
 					} else {
 						reject(new Error(message));

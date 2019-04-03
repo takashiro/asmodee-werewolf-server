@@ -5,7 +5,7 @@ const querystring = require('querystring');
 
 const Lobby = require('./Lobby');
 const HttpError = require('./HttpError');
-
+const logger = require('log4js').getLogger("asmodee-server");
 const DefaultConfig = {
 	socket: '/var/run/asmodee-werewolf/asmodee-werewolf.sock',
 	maxRoomLimit: 1000,
@@ -25,7 +25,6 @@ function readJSON(stream) {
 		});
 
 		stream.on('error', reject);
-
 		stream.on('end', function () {
 			let input = Buffer.concat(trunks).toString();
 			try {
@@ -54,7 +53,7 @@ async function requestListener(request, response) {
 		try {
 			params = querystring.parse(request.url.substr(q + 1));
 		} catch (error) {
-			// Do nothing
+			logger.error("Error happen in querysting parses url");
 		}
 	}
 
@@ -63,6 +62,7 @@ async function requestListener(request, response) {
 	try {
 		handler = require(path.join('..', 'api', api));
 	} catch (error) {
+		logger.error(`Error in serving api call: ${api}`)
 		response.writeHead(404);
 		return response.end();
 	}
@@ -92,7 +92,7 @@ async function requestListener(request, response) {
 			response.writeHead(error.code);
 			return response.end(error.message);
 		} else {
-			console.error(error);
+			logger.error(`${error} happen when try to fullfill the request.`)
 			response.writeHead(500);
 			return response.end(String(error));
 		}
@@ -130,6 +130,7 @@ class App {
 	 * @return {Promise}
 	 */
 	start() {
+		logger.info(`Starting the server in port ${this.config.socket}.`)
 		return new Promise((resolve) => {
 			this.server.listen(this.config.socket, resolve);
 		});
@@ -140,6 +141,7 @@ class App {
 	 * @return {Promise}
 	 */
 	stop() {
+		logger.info("Shutting down the server.")
 		return new Promise((resolve) => {
 			this.server.close(resolve);
 		});
