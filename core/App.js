@@ -109,7 +109,7 @@ async function requestListener(request, response) {
 		response.end(output);
 	} else {
 		response.writeHead(200);
-		reponse.end();
+		response.end();
 	}
 }
 

@@ -11,12 +11,7 @@ function readText(stream) {
 		stream.on('error', reject);
 		stream.on('end', function () {
 			let text = Buffer.concat(body).toString();
-			try {
-				resolve(text);
-			} catch (error) {
-				console.error('Failed to parse: ' + json);
-				reject(error);
-			}
+			resolve(text);
 		});
 	});
 }
