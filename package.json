@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "node test"
+    "test": "npx eslint . && node test"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/takashiro/asmodee-werewolf-server/issues"
   },
-  "homepage": "https://github.com/takashiro/asmodee-werewolf-server#readme"
+  "homepage": "https://github.com/takashiro/asmodee-werewolf-server#readme",
+  "devDependencies": {
+    "eslint": "^5.16.0"
+  }
 }
