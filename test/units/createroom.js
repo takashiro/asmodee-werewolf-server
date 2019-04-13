@@ -39,6 +39,6 @@ class CreateRoomTest extends UnitTest {
 		await this.assertJSON({id: room.id});
 	}
 
-};
+}
 
 module.exports = CreateRoomTest;
