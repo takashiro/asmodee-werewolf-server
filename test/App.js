@@ -21,25 +21,23 @@ class App {
 	 * Start up the application
 	 * @return {Promise}
 	 */
-	start() {
+	async start() {
 		const configFile = path.resolve(__dirname, './temp/config.json');
-		return writeFile(configFile, JSON.stringify(this.config))
-		.then(() => {
-			const app = spawn('node', ['app', '--config=' + configFile]);
-			this.process = app;
-			return new Promise(function (resolve, reject) {
-				const appout = readline.createInterface({input: app.stdout});
-				appout.once('line', function (message) {
-					if (message === 'started') {
-						resolve();
-					} else {
-						reject(new Error(message));
-					}
-				});
-				const apperr = readline.createInterface({input: app.stderr});
-				apperr.once('line', function (message) {
+		await writeFile(configFile, JSON.stringify(this.config));
+		const app = spawn('node', ['app', '--config=' + configFile]);
+		this.process = app;
+		return new Promise(function (resolve, reject) {
+			const appout = readline.createInterface({input: app.stdout});
+			appout.once('line', function (message) {
+				if (message === 'started') {
+					resolve();
+				} else {
 					reject(new Error(message));
-				});
+				}
+			});
+			const apperr = readline.createInterface({input: app.stderr});
+			apperr.once('line', function (message) {
+				reject(new Error(message));
 			});
 		});
 	}
