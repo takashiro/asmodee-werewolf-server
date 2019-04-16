@@ -38,7 +38,7 @@ function POST(param, input) {
 	let info = room.toJSON();
 	info.ownerKey = room.ownerKey;
 	return info;
-};
+}
 
 function GET(param) {
 	if (!param.id) {
@@ -56,7 +56,7 @@ function GET(param) {
 	}
 
 	return room;
-};
+}
 
 function DELETE(param) {
 	if (!param.id || !param.ownerKey) {
@@ -75,7 +75,7 @@ function DELETE(param) {
 
 	this.lobby.delete(room.id);
 	return {id: room.id};
-};
+}
 
 module.exports = {
 	POST,
