@@ -1,4 +1,4 @@
-
+'use strict';
 const App = require('./core/App');
 const logUtil = require('./util/logUtil.js');
 const logger = require('log4js').getLogger('asmodee-server');
@@ -17,7 +17,7 @@ let config = (function () {
 	try {
 		return require(configFile);
 	} catch (e) {
-		logger.error(`Exception in require configFile in app.js: ${e}`)
+		logger.error(`Exception in require configFile in app.js: ${e}`);
 		return {};
 	}
 })();
@@ -26,5 +26,5 @@ let config = (function () {
 (async function () {
 	const app = new App(config);
 	await app.start();
-	logger.info("asmodee-werewolf-server started");
+	logger.info('asmodee-werewolf-server started');
 })();
