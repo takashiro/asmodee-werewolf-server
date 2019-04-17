@@ -1,10 +1,15 @@
 'use strict';
 const App = require('./core/App');
-const logUtil = require('./util/logUtil.js');
+const logUtil = require('./util/logUtil.js').settingLog();
 const logger = require('log4js').getLogger('asmodee-server');
+const nconf = require('nconf');
 
-// Setting log
-logUtil.settingLog();
+if (process.env.NODE_ENV == 'production') {
+	nconf.file('./config/app-dev.json');
+} else {
+	nconf.file('./config/app.json');
+}
+
 // Load configurations
 let config = (function () {
 	let configFile = './config.json';

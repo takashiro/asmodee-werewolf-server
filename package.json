@@ -20,7 +20,10 @@
   },
   "homepage": "https://github.com/takashiro/asmodee-werewolf-server#readme",
   "dependencies": {
-    "log4js": "^4.1.0"
+    "config": "^3.1.0",
+    "log4js": "^4.1.0",
+    "mongodb": "^3.2.3",
+    "nconf": "^0.10.0"
   },
   "devDependencies": {
     "eslint": "^5.16.0",

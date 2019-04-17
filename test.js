@@ -1,6 +1,11 @@
 
 const HttpClient = require('./test/HttpClient');
-
+const nconf = require('nconf');
+if (process.env.NODE_ENV !== 'production') {
+	nconf.file('./config/app-dev.json');
+} else {
+	nconf.file('./config/app.json');
+}
 (async function () {
 	let localDebug = process.argv.some(argv => argv === '--local-debug');
 	const App = require('./' + (localDebug ? 'core' : 'test') + '/App');
