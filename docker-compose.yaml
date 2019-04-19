@@ -1,17 +1,8 @@
 version: '3.7'
 
 services:
-  mongodb-service:
-    image: mongo
-    restart: always
-    volumes:
-      - .:/data/db 
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
   asmodee-server:
     build: .
-    command: npm run debug
     volumes:
       - .:/usr/src/app
     ports:
