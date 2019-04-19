@@ -7,5 +7,4 @@ module.exports = [
 	require('./fetchroles'),
 	require('./roomcapacity'),
 	require('./thiefcard'),
-	require('./mongoTest')
 ];
