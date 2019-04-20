@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "npx eslint . && node test"
+    "test": "npx eslint . && node test",
+    "debug": "nodemon --legacy-watch --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./app.js",
+    "docker-debug": "docker-compose up"
   },
   "repository": {
     "type": "git",
@@ -17,7 +19,14 @@
     "url": "https://github.com/takashiro/asmodee-werewolf-server/issues"
   },
   "homepage": "https://github.com/takashiro/asmodee-werewolf-server#readme",
+  "dependencies": {
+    "config": "^3.1.0",
+    "log4js": "^4.1.0",
+    "mongodb": "^3.2.3",
+    "nconf": "^0.10.0"
+  },
   "devDependencies": {
-    "eslint": "^5.16.0"
+    "eslint": "^5.16.0",
+    "nodemon": "^1.11.0"
   }
 }

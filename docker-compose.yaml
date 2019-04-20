@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  asmodee-server:
+    build: .
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "9222:9222"
+
+  asmodee-react:
+    build: ../asmodee-werewolf-react
+    ports:
+     - "80:80"
+    
+
+

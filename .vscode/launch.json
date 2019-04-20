@@ -7,6 +7,34 @@
 		{
 			"type": "node",
 			"request": "launch",
+			"name": "Launch in Docker",
+			"runtimeExecutable": "npm",
+			"runtimeArgs": [
+				"run",
+				"docker-debug"
+			],
+			"port": 9222,
+			"restart": true,
+			"timeout": 60000,
+			"localRoot": "${workspaceFolder}",
+			"remoteRoot": "/usr/src/app",
+			"console": "integratedTerminal",
+			"internalConsoleOptions": "neverOpen"
+		},
+		{
+			"type": "node",
+			"request": "attach",
+			"name": "Attach to Docker",
+			"address": "localhost",
+			"port": 9222,
+			"restart": true,
+			"localRoot": "${workspaceFolder}",
+			"remoteRoot": "/usr/src/app",
+			"protocol": "inspector",
+		},
+		{
+			"type": "node",
+			"request": "launch",
 			"name": "Launch Program",
 			"program": "${workspaceFolder}/app.js"
 		},
@@ -15,7 +43,9 @@
 			"request": "launch",
 			"name": "Launch Test",
 			"program": "${workspaceFolder}/test.js",
-			"args": ["--local-debug"]
+			"args": [
+				"--local-debug"
+			]
 		}
 	]
 }
