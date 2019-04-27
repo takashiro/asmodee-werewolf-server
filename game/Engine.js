@@ -1,7 +1,9 @@
 
+'use strict';
 const Timing = require('./Timing');
 const Player = require('./Player');
 const SkillList = require('../skills');
+
 
 /**
  * Shuffle an array in place
@@ -63,6 +65,10 @@ class Engine {
 			this.players[i] = player;
 			player.setRole(roles[i]);
 			this.trigger(Timing.DrawCard, player, config);
+			player.setInfo({
+				_id: player.getSeatKey(),
+				name: player.getSeatKey()
+			});
 		}
 	}
 
@@ -97,10 +103,12 @@ class Engine {
 			};
 			this.trigger(Timing.TakeSeat, player, seat);
 			seat.role = seat.role.toNum();
+			player.save();
 			return seat;
 		} else {
 			return null;
 		}
+
 	}
 
 	/**

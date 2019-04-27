@@ -9,7 +9,9 @@ if (process.env.NODE_ENV == 'production') {
 } else {
 	nconf.file('./config/app.json');
 }
+const mongo = require('./util/mongoUtil');
 
+mongo.init();
 // Load configurations
 let config = (function () {
 	let configFile = './config.json';

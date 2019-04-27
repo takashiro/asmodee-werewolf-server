@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "test": "npx eslint . && node test",
-    "debug": "nodemon --legacy-watch --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./app.js",
+    "debug": "nodemon --legacy-watch --watch . --inspect=0.0.0.0:9222 --nolazy ./app.js",
     "docker-debug": "docker-compose up"
   },
   "repository": {

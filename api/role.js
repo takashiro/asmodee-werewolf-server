@@ -1,4 +1,5 @@
 
+'use strict';
 const getRoom = require('./room').GET;
 const HttpError = require('../core/HttpError');
 
@@ -21,6 +22,7 @@ function GET(param) {
 	}
 
 	let card = engine.takeSeat(seat, key);
+	
 	if (!card) {
 		throw new HttpError(409, 'The seat has been taken');
 	}

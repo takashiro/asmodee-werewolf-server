@@ -1,3 +1,4 @@
+'use strict';
 const log4js = require('log4js');
 function settingLog() {
 	if (process.env.NODE_ENV == 'production') {
