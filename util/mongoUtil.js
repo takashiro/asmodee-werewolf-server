@@ -10,10 +10,10 @@ let interval = null;
 let _db = null;
 const _init = async function () {
 	if (mongoConfig.enable) {
-		const client = new MongoClient(url, { useNewUrlParser: true});
+		const client = new MongoClient(url, { useNewUrlParser: true });
 		// Use connect method to connect to the Server
 		await client.connect();
-		_db = client.db('mydb');
+		_db = client.db(mongoConfig.db);
 	}
 };
 
@@ -33,7 +33,7 @@ const _insert = async (oldDoc, newDoc, colle) => {
 	if (res.length === 0) {
 		await _db.collection(colle).insertOne(newDoc);
 	} else {
-		let res = await _db.collection(colle).findOneAndUpdate(oldDoc, {$set: newDoc}, {
+		let res = await _db.collection(colle).findOneAndUpdate(oldDoc, { $set: newDoc }, {
 			returnOriginal: true,
 			upsert: true
 		});

@@ -65,7 +65,7 @@ class Engine {
 			this.players[i] = player;
 			player.setRole(roles[i]);
 			this.trigger(Timing.DrawCard, player, config);
-			player.setInfo({
+			player.setUser({
 				_id: player.getSeatKey(),
 				name: player.getSeatKey()
 			});

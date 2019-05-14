@@ -83,7 +83,7 @@ async function requestListener(request, response) {
 			let input = await readJSON(request);
 			output = handler[request.method].call(this, params, input);
 		} else if (request.method === 'GET' || request.method === 'DELETE') {
-			output = handler[request.method].call(this, params);
+			output = await handler[request.method].call(this, params);
 		} else {
 			throw new HttpError(405, 'Method not allowed');
 		}

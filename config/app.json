@@ -1,6 +1,8 @@
 {
     "mongo": {
-        "enable": false,
-        "url": "mongodb://mongo:27017"
+        "enable": true,
+        "url": "mongodb://mongo:27017",
+        "db": "asmodee",
+        "collection": "users"
     }
 }

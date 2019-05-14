@@ -1,12 +1,12 @@
 'use strict';
-const { PlayerInfo } = require('../house/PlayerInfo');
+const User = require('../house/User');
 class Player {
 
 	constructor(seat) {
 		this.seat = seat;
 		this.role = null;
 		this.seatKey = null;
-		this.info =  null;
+		this.user = null;
 	}
 
 	getSeat() {
@@ -32,14 +32,14 @@ class Player {
 	setRole(role) {
 		this.role = role;
 	}
-	getInfo() {
-		return this.info;
+	getUser() {
+		return this.user;
 	}
-	setInfo(info) {
-		this.info = new PlayerInfo(info);
+	setUser(user) {
+		this.user = new User(user);
 	}
 	save() {
-		this.info.save();
+		this.user.save();
 	}
 
 }
