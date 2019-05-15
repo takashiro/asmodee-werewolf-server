@@ -1,7 +1,6 @@
 'user strict';
 const db = require('../util/mongoUtil');
 const nconf = require('nconf');
-// player information which used to associate with player and persisted
 
 class User {
 	constructor(bone) {
