@@ -3,17 +3,17 @@
 const User = require('../house/User');
 const HttpError = require('../core/HttpError');
 
-function POST(param) {
-	if (!param.id) {
+function POST(param, input) {
+	if (!input.id) {
 		throw new HttpError(400, 'No user id');
 	}
-	let id = parseInt(param.id, 10);
-	if (!param.id) {
+	let id = parseInt(input.id, 10);
+	if (!input.id) {
 		throw new HttpError(400, 'No user name');
 	}
-	let name = param.name;
-	let icon = param.icon;
-	let motto = param.motto;
+	let name = input.name;
+	let icon = input.icon;
+	let motto = input.motto;
 	let user = new User({ id, name, icon, motto });
 	user.save();
 }
