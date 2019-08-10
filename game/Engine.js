@@ -61,7 +61,7 @@ class Engine {
 		for (let i = 0; i < config.playerNum; i++) {
 			let player = new Player(i + 1);
 			this.players[i] = player;
-			player.setRole(roles[i]);
+			player.addRole(roles[i]);
 			this.trigger(Timing.DrawCard, player, config);
 		}
 	}
@@ -92,11 +92,9 @@ class Engine {
 		}
 
 		if (player.getSeatKey() === key) {
-			let seat = {
-				role: player.getRole()
-			};
-			this.trigger(Timing.TakeSeat, player, seat);
-			return seat;
+			const profile = player.getProfile();
+			this.trigger(Timing.TakeSeat, player, profile);
+			return profile;
 		} else {
 			return null;
 		}

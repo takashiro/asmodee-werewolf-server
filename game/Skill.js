@@ -18,7 +18,7 @@ class Skill {
 	 * @return {boolean}
 	 */
 	triggerable(room, target) {
-		return room && target.role === this.role;
+		return room && target.hasRole(this.role);
 	}
 
 	/**

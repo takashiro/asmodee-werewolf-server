@@ -3,7 +3,7 @@ class Player {
 
 	constructor(seat) {
 		this.seat = seat;
-		this.role = null;
+		this.roles = [];
 		this.seatKey = null;
 	}
 
@@ -23,19 +23,33 @@ class Player {
 		this.seatKey = seatKey;
 	}
 
-	getRole() {
-		return this.role;
+	getRoles() {
+		return this.roles;
 	}
 
-	setRole(role) {
-		this.role = role;
+	addRole(role) {
+		this.roles.push(role);
+	}
+
+	removeRole(role) {
+		const i = this.roles.indexOf(role);
+		if (i >= 0) {
+			this.roles.splice(i, 1);
+		}
+	}
+
+	hasRole(role) {
+		return this.roles.includes(role);
 	}
 
 	getProfile() {
 		const profile = {
 			seat: this.seat,
-			role: this.role,
+			roles: this.roles,
 		};
+		if (this.roles.length === 1) {
+			profile.role = this.roles[0];
+		}
 		return profile;
 	}
 
