@@ -4,6 +4,8 @@ const assert = require('assert');
 const Role = require('../game/Role');
 const Team = require('../game/Team');
 
+/* global self */
+
 describe('Thief Card', function () {
 
 	it('provides 2 more cards', async function () {

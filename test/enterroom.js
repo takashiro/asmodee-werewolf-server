@@ -1,6 +1,8 @@
 
 const assert = require('assert');
 
+/* global self */
+
 describe('Enter a room', function () {
 
 	it('should handle invalid room id', async function () {

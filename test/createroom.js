@@ -1,6 +1,8 @@
 
 const assert = require('assert');
 
+/* global self */
+
 describe('Create a simple room', function () {
 
 	it('should handle invalid roles', async function () {

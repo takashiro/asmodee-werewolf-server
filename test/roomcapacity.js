@@ -1,6 +1,8 @@
 
 const assert = require('assert');
 
+/* global self */
+
 describe('Lobby Capacity', function () {
 	let roles = [10, 10, 10, 10];
 	let rooms = [];
@@ -38,7 +40,7 @@ describe('Lobby Capacity', function () {
 		}
 	});
 
-	it('becomes empty', async function () {;
+	it('becomes empty', async function () {
 		await self.get('status');
 		let status = await self.getJSON();
 		assert(status.capacity > 0);

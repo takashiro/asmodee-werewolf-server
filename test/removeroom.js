@@ -1,6 +1,8 @@
 
 const assert = require('assert');
 
+/* global self */
+
 describe('Remove a room', function () {
 	let room = null;
 

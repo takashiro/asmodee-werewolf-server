@@ -3,6 +3,8 @@ const assert = require('assert');
 
 const Role = require('../game/Role');
 
+/* global self */
+
 describe('Fetch roles', function () {
 	let roles = [];
 	let room = null;
