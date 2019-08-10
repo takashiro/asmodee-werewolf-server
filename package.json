@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "npx eslint . && node test"
+    "test": "eslint . && mocha"
   },
   "repository": {
     "type": "git",

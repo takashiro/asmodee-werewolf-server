@@ -4,8 +4,10 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 const util = require('util');
+const os = require('os');
 
 const writeFile = util.promisify(fs.writeFile);
+const unlink = util.promisify(fs.unlink);
 
 class App {
 
@@ -22,9 +24,10 @@ class App {
 	 * @return {Promise}
 	 */
 	async start() {
-		const configFile = path.resolve(__dirname, './temp/config.json');
-		await writeFile(configFile, JSON.stringify(this.config));
-		const app = spawn('node', ['app', '--config=' + configFile]);
+		const id = Math.floor(Math.random() * 0xFFFFFF);
+		this.configFile = path.join(os.tmpdir(), `asmodee-werewolf-${id}.config.json`);
+		await writeFile(this.configFile, JSON.stringify(this.config));
+		const app = spawn('node', ['app', '--config=' + this.configFile]);
 		this.process = app;
 		return new Promise(function (resolve, reject) {
 			const appout = readline.createInterface({input: app.stdout});
@@ -45,9 +48,13 @@ class App {
 	/**
 	 * Stop the application
 	 */
-	stop() {
+	async stop() {
 		if (this.process) {
 			this.process.kill();
+		}
+		if (this.configFile) {
+			unlink(this.configFile);
+			this.configFile = null;
 		}
 	}
 

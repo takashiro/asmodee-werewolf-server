@@ -1,33 +1,31 @@
 
 const assert = require('assert');
-const UnitTest = require('../UnitTest');
 
-class RemoveRoomTest extends UnitTest {
+describe('Remove a room', function () {
+	let room = null;
 
-	constructor() {
-		super('Remove a room');
-	}
-
-	async run() {
+	it('creates a room', async function () {
 		let roles = [10, 10, 10, 10];
-		await this.post('room', {roles});
-		let room = await this.getJSON();
+		await self.post('room', {roles});
+		room = await self.getJSON();
 		assert(room.id > 0);
 		assert(room.ownerKey);
+	});
 
-		await this.delete('room', {
+	it('deletes a non-existing room', async function () {
+		await self.delete('room', {
 			id: room.id,
 			ownerKey: 1234,
 		});
-		await this.assertError(404, 'The room does not exist');
+		await self.assertError(404, 'The room does not exist');
+	});
 
-		await this.delete('room', {
+	it('deletes a room', async function () {
+		await self.delete('room', {
 			id: room.id,
 			ownerKey: room.ownerKey
 		});
-		await this.assertJSON({id: room.id});
-	}
+		await self.assertJSON({id: room.id});
+	});
 
-}
-
-module.exports = RemoveRoomTest;
+});

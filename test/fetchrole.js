@@ -1,45 +1,49 @@
 
 const assert = require('assert');
-const UnitTest = require('../UnitTest');
 
 const Role = require('../game/Role');
 
-class FetchRoleTest extends UnitTest {
+describe('Fetch role', function () {
+	let room = null;
+	let roles = [];
 
-	constructor() {
-		super('Fetch role');
-	}
-
-	async run() {
-		let roles = [];
+	before(async function () {
 		for (let i = 0; i < 10; i++) {
 			let role = Role.enums[Math.floor(Math.random() * Role.enums.length)];
 			roles.push(role.toNum());
 		}
 
-		await this.post('room', {roles});
-		let room = await this.getJSON();
+		await self.post('room', {roles});
+		room = await self.getJSON();
+	});
 
-		await this.get('role', {id: room.id});
-		await this.assertError(400, 'Invalid seat');
+	it('handles invalid seat', async function () {
+		await self.get('role', {id: room.id});
+		await self.assertError(400, 'Invalid seat');
 
-		await this.get('role', {id: room.id, seat: roles.length + 1});
-		await this.assertError(400, 'Invalid seat');
+		await self.get('role', {id: room.id, seat: roles.length + 1});
+		await self.assertError(400, 'Invalid seat');
+	});
 
-		await this.get('role', {id: room.id, seat: 3, key: 'test'});
-		await this.assertError(403, 'Invalid seat key');
+	it('handles invalid seat key', async function () {
+		await self.get('role', {id: room.id, seat: 3, key: 'test'});
+		await self.assertError(403, 'Invalid seat key');
+	});
 
-		await this.get('role', {id: room.id, seat: 3, key: Math.floor(Math.random() * 0xFFFF)});
-		let my = await this.getJSON();
+	it('gets a role', async function () {
+		await self.get('role', {id: room.id, seat: 3, key: Math.floor(Math.random() * 0xFFFF)});
+		let my = await self.getJSON();
 		assert(roles.indexOf(my.role) >= 0);
+	});
 
-		await this.get('role', {id: room.id, seat: 3, key: Math.floor(Math.random() * 0xFFFF)});
-		await this.assertError(409, 'The seat has been taken');
+	it('handles taken seat', async function () {
+		await self.get('role', {id: room.id, seat: 3, key: Math.floor(Math.random() * 0xFFFF)});
+		await self.assertError(409, 'The seat has been taken');
+	});
 
-		await this.delete('room', {id: room.id, ownerKey: room.ownerKey});
-		await this.assertJSON({id: room.id});
-	}
+	after(async function () {
+		await self.delete('room', {id: room.id, ownerKey: room.ownerKey});
+		await self.assertJSON({id: room.id});
+	});
 
-}
-
-module.exports = FetchRoleTest;
+});

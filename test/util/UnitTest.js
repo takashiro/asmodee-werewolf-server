@@ -7,27 +7,11 @@ class UnitTest {
 
 	/**
 	 * Create a unit test
-	 * @param {string} name
+	 * @param {Client} client
 	 */
-	constructor(name) {
-		this.name = name;
-		this.client = null;
-		this.res = null;
-	}
-
-	/**
-	 * Set up HTTP client
-	 * @param {HttpClient} client
-	 */
-	setClient(client) {
+	constructor(client) {
 		this.client = client;
-	}
-
-	/**
-	 * Tests to be run.
-	 * Override this function to customize tests
-	 */
-	run() {
+		this.res = null;
 	}
 
 	async post(api, params, input) {

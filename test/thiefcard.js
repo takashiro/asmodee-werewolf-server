@@ -1,25 +1,20 @@
 
 const assert = require('assert');
-const UnitTest = require('../UnitTest');
 
 const Role = require('../game/Role');
 const Team = require('../game/Team');
 
-class ThiefCardTest extends UnitTest {
+describe('Thief Card', function () {
 
-	constructor() {
-		super('Test thief card');
-	}
-
-	async run() {
+	it('provides 2 more cards', async function () {
 		for (let t = 0; t < 10; t++) {
 			let roles = [Role.Werewolf, Role.Thief, Role.Villager].map(role => role.toNum());
-			await this.post('room', {roles});
-			let room = await this.getJSON();
+			await self.post('room', {roles});
+			let room = await self.getJSON();
 			assert(room.roles.length === 3);
 
-			await this.get('role', {id: room.id, seat: 1, key: Math.floor(Math.random() * 0xFFFF)});
-			let my = await this.getJSON();
+			await self.get('role', {id: room.id, seat: 1, key: Math.floor(Math.random() * 0xFFFF)});
+			let my = await self.getJSON();
 			assert(my.role === Role.Thief.toNum());
 
 			let cards = my.cards.map(role => Role.fromNum(role));
@@ -27,19 +22,20 @@ class ThiefCardTest extends UnitTest {
 			assert(cards.indexOf(Role.Werewolf) >= 0);
 			assert(cards.indexOf(Role.Villager) >= 0);
 
-			await this.delete('room', {id: room.id, ownerKey: room.ownerKey});
-			await this.assertJSON({id: room.id});
+			await self.delete('room', {id: room.id, ownerKey: room.ownerKey});
+			await self.assertJSON({id: room.id});
 		}
+	});
 
-		// Make sure the thief won't take 2 werewolves
+	it('won\'t take 2 werewolves', async function () {
 		for (let t = 0; t < 10; t++) {
 			let roles = [Role.Werewolf, Role.Werewolf, Role.Werewolf, Role.AlphaWolf, Role.Thief, Role.Seer];
 
-			await this.post('room', {roles: roles.map(role => role.toNum())});
-			let room = await this.getJSON();
+			await self.post('room', {roles: roles.map(role => role.toNum())});
+			let room = await self.getJSON();
 
-			await this.get('roles', {id: room.id, ownerKey: room.ownerKey});
-			let players = await this.getJSON();
+			await self.get('roles', {id: room.id, ownerKey: room.ownerKey});
+			let players = await self.getJSON();
 			let room_roles = players.map(player => player.card).map(card => Role.fromNum(card.role));
 			assert(room_roles.length === roles.length - 2);
 
@@ -47,11 +43,12 @@ class ThiefCardTest extends UnitTest {
 			let werewolves = room_roles.filter(role => role.team === Team.Werewolf);
 			assert(requested_werewolves.length - 1 === werewolves.length);
 
-			await this.delete('room', {id: room.id, ownerKey: room.ownerKey});
-			await this.assertJSON({id: room.id});
+			await self.delete('room', {id: room.id, ownerKey: room.ownerKey});
+			await self.assertJSON({id: room.id});
 		}
+	});
 
-		// Make sure all roles are correct
+	it('privides correct roles', async function () {
 		for (let t = 0; t < 10; t++) {
 			let roles = [
 				Role.Werewolf, Role.Werewolf, Role.Werewolf, Role.AlphaWolf,
@@ -61,14 +58,14 @@ class ThiefCardTest extends UnitTest {
 			];
 
 			let requested_roles = roles.map(role => role.toNum());
-			await this.post('room', {roles: requested_roles});
-			let room = await this.getJSON();
+			await self.post('room', {roles: requested_roles});
+			let room = await self.getJSON();
 			assert(room.roles.length === roles.length);
 
 			let fetched_roles = [];
 			for (let seat = 1; seat <= roles.length - 2; seat++) {
-				await this.get('role', {id: room.id, seat, key: seat});
-				let my = await this.getJSON();
+				await self.get('role', {id: room.id, seat, key: seat});
+				let my = await self.getJSON();
 				if (my.role) {
 					fetched_roles.push(my.role);
 				}
@@ -90,11 +87,9 @@ class ThiefCardTest extends UnitTest {
 				assert(requested_roles[i] === fetched_roles[i]);
 			}
 
-			await this.delete('room', {id: room.id, ownerKey: room.ownerKey});
-			await this.assertJSON({id: room.id});
+			await self.delete('room', {id: room.id, ownerKey: room.ownerKey});
+			await self.assertJSON({id: room.id});
 		}
-	}
+	});
 
-}
-
-module.exports = ThiefCardTest;
+});

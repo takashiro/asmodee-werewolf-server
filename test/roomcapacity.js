@@ -1,47 +1,48 @@
 
 const assert = require('assert');
-const UnitTest = require('../UnitTest');
 
-class RoomCapacityTest extends UnitTest {
+describe('Lobby Capacity', function () {
+	let roles = [10, 10, 10, 10];
+	let rooms = [];
+	let old_status = null;
 
-	constructor() {
-		super('Test lobby capacity');
-	}
-
-	async run() {
-		let roles = [10, 10, 10, 10];
-		let rooms = [];
-
-		await this.get('status');
-		let old_status = await this.getJSON();
+	it('is empty at startup', async function () {
+		await self.get('status');
+		old_status = await self.getJSON();
 		assert(old_status.capacity > 0);
 		assert(old_status.roomNum === 0);
+	});
 
+	it('occupies all room capacity', async function () {
 		for (let i = 0; i < old_status.capacity; i++) {
-			await this.post('room', {roles});
-			let room = await this.getJSON();
+			await self.post('room', {roles});
+			let room = await self.getJSON();
 			rooms.push(room);
 		}
+	});
 
+	it('refuses to create a room if all are occupied', async function () {
 		for (let i = 0; i < 3; i++) {
-			await this.post('room', {roles});
-			await this.assertError(500, 'Too many rooms');
+			await self.post('room', {roles});
+			await self.assertError(500, 'Too many rooms');
 		}
+	});
 
+	it('deletes all rooms', async function () {
 		for (let room of rooms) {
-			await this.delete('room', {
+			await self.delete('room', {
 				id: room.id,
 				ownerKey: room.ownerKey,
 			});
-			await this.assertJSON({id: room.id});
+			await self.assertJSON({id: room.id});
 		}
+	});
 
-		await this.get('status');
-		let status = await this.getJSON();
+	it('becomes empty', async function () {;
+		await self.get('status');
+		let status = await self.getJSON();
 		assert(status.capacity > 0);
 		assert(status.roomNum === 0);
-	}
+	});
 
-}
-
-module.exports = RoomCapacityTest;
+});

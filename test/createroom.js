@@ -1,32 +1,29 @@
 
 const assert = require('assert');
-const UnitTest = require('../UnitTest');
 
-class CreateRoomTest extends UnitTest {
+describe('Create a simple room', function () {
 
-	constructor() {
-		super('Create a simple room');
-	}
+	it('should handle invalid roles', async function () {
+		await self.post('room');
+		await self.assertError(400, 'Invalid roles');
+		await self.post('room', {roles: {}});
+		await self.assertError(400, 'Invalid roles');
+	});
 
-	async run() {
-		// Invalid role is configured
-		await this.post('room');
-		await this.assertError(400, 'Invalid roles');
-		await this.post('room', {roles: {}});
-		await this.assertError(400, 'Invalid roles');
+	it('should handle no role', async function () {
+		await self.post('room', {roles: []});
+		await self.assertError(400, 'At least one role must exist');
+	});
 
-		// No role is configured
-		await this.post('room', {roles: []});
-		await this.assertError(400, 'At least one role must exist');
+	it('should handle that all roles are invalid', async function () {
+		await self.post('room', {roles: [1001, 1002, 1003]});
+		await self.assertError(400, 'All roles are invalid');
+	});
 
-		// Invalid roles
-		await this.post('room', {roles: [1001, 1002, 1003]});
-		await this.assertError(400, 'All roles are invalid');
-
-		// Normal case
+	it('should create a room', async function () {
 		let roles = [1, 2, 3, 4];
-		await this.post('room', {roles});
-		let room = await this.getJSON();
+		await self.post('room', {roles});
+		let room = await self.getJSON();
 		assert(room.id > 0);
 		assert(room.ownerKey);
 		assert(room.salt);
@@ -35,10 +32,7 @@ class CreateRoomTest extends UnitTest {
 			assert(roles[i] === room.roles[i]);
 		}
 
-		await this.delete('room', {id: room.id, ownerKey: room.ownerKey});
-		await this.assertJSON({id: room.id});
-	}
-
-}
-
-module.exports = CreateRoomTest;
+		await self.delete('room', {id: room.id, ownerKey: room.ownerKey});
+		await self.assertJSON({id: room.id});
+	});
+});
