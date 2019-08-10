@@ -32,6 +32,7 @@ class Room {
 		this.salt = randomstr(8);
 		this.ownerKey = randomstr(32);
 		this.engine = new Engine;
+		this.timer = null;
 	}
 
 	getEngine() {
@@ -44,6 +45,17 @@ class Room {
 			salt: this.salt,
 			...this.engine.toJSON(),
 		};
+	}
+
+	setTimer(timer) {
+		this.timer = timer;
+	}
+
+	destroy() {
+		if (this.timer) {
+			clearTimeout(this.timer);
+			this.timer = null;
+		}
 	}
 
 }

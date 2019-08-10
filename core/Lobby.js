@@ -39,9 +39,10 @@ class Lobby {
 		this.rooms.set(room.id, room);
 
 		let id = room.id;
-		setTimeout(() => {
+		let timer = setTimeout(() => {
 			this.rooms.delete(id);
 		}, this.timeout);
+		room.setTimer(timer);
 
 		return true;
 	}
@@ -64,9 +65,16 @@ class Lobby {
 
 	/**
 	 * Delete a room
+	 * @return {boolean}
 	 */
 	delete(id) {
-		return this.rooms.delete(id);
+		const room = this.rooms.get(id);
+		if (room) {
+			room.destroy();
+			return this.rooms.delete(id);
+		} else {
+			return false;
+		}
 	}
 
 }
