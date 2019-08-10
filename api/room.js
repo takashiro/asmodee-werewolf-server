@@ -1,7 +1,7 @@
 
 const Room = require('../core/Room');
 const HttpError = require('../core/HttpError');
-const Role = require('../game/Role');
+const RoleCard = require('../game/RoleCard');
 
 function POST(param, input) {
 	if (!input.roles || !(input.roles instanceof Array)) {
@@ -16,8 +16,7 @@ function POST(param, input) {
 
 	let roles = [];
 	for (let role of input.roles) {
-		role = Role.fromNum(role);
-		if (role !== Role.Unknown) {
+		if (RoleCard.isValid(role)) {
 			roles.push(role);
 		}
 	}

@@ -1,71 +1,38 @@
 
-const Team = require('./Team');
-
-let RoleValue = 0;
-
-class Role {
-
-	constructor(key, team) {
-		this.value = RoleValue++;
-		this.key = key;
-		this.team = team;
-	}
-
-	toNum() {
-		return this.value;
-	}
-
-	static fromNum(num) {
-		if (0 <= num && num < Role.enums.length) {
-			return Role.enums[num];
-		} else {
-			return Role.Unknown;
-		}
-	}
-
-}
-
-const RoleList = [
-	new Role('Unknown', Team.Unknown),
-
-	new Role('Werewolf', Team.Werewolf),
-	new Role('AlphaWolf', Team.Werewolf),
-	new Role('WhiteAlphaWolf', Team.Werewolf),
-	new Role('WolfBeauty', Team.Werewolf),
-	new Role('SecretWolf', Team.Werewolf),
-	new Role('Demon', Team.Werewolf),
-	new Role('Villager', Team.Villager),
-	new Role('Seer', Team.Villager),
-	new Role('Tamer', Team.Villager),
-	new Role('Witch', Team.Villager),
-	new Role('Hunter', Team.Villager),
-	new Role('Guard', Team.Villager),
-	new Role('Magician', Team.Villager),
-	new Role('Idiot', Team.Villager),
-	new Role('Elder', Team.Villager),
-	new Role('Knight', Team.Villager),
-	new Role('DreamWeaver', Team.Villager),
-	new Role('Rogue', Team.Villager),
-	new Role('Crow', Team.Villager),
-	new Role('Cupid', Team.Other),
-	new Role('FeralChild', Team.Other),
-	new Role('Thief', Team.Other),
-	new Role('Bombman', Team.Other),
-	new Role('Gargoyle', Team.Werewolf),
-	new Role('GraveyardKeeper', Team.Villager),
-	new Role('Tiangou', Team.Werewolf),
-	new Role('Luna', Team.Villager),
-	new Role('WolfGrandma', Team.Werewolf),
-	new Role('RedHat', Team.Villager),
-	new Role('Doppelganger', Team.Other),
-	new Role('Revenger', Team.Other),
-	new Role('Hybrid', Team.Other),
-];
-
-for (let role of RoleList) {
-	Role[role.key] = role;
-}
-
-Role.enums = RoleList;
+const Role = {
+	Unknown: 0,
+	Werewolf: 1,
+	AlphaWolf: 2,
+	WhiteAlphaWolf: 3,
+	WolfBeauty: 4,
+	SecretWolf: 5,
+	Demon: 6,
+	Villager: 7,
+	Seer: 8,
+	Tamer: 9,
+	Witch: 10,
+	Hunter: 11,
+	Guard: 12,
+	Magician: 13,
+	Idiot: 14,
+	Elder: 15,
+	Knight: 16,
+	DreamWeaver: 17,
+	Rogue: 18,
+	Crow: 19,
+	Cupid: 20,
+	FeralChild: 21,
+	Thief: 22,
+	Bombman: 23,
+	Gargoyle: 24,
+	GraveyardKeeper: 25,
+	Tiangou: 26,
+	Luna: 27,
+	WolfGrandma: 28,
+	RedHat: 29,
+	Doppelganger: 30,
+	Revenger: 31,
+	Hybrid: 32
+};
 
 module.exports = Role;

@@ -96,7 +96,6 @@ class Engine {
 				role: player.getRole()
 			};
 			this.trigger(Timing.TakeSeat, player, seat);
-			seat.role = seat.role.toNum();
 			return seat;
 		} else {
 			return null;
@@ -128,7 +127,7 @@ class Engine {
 
 	toJSON() {
 		return {
-			roles: this.roles.map(role => role.toNum()),
+			roles: this.roles,
 		};
 	}
 

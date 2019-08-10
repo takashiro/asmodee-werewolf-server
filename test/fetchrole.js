@@ -2,6 +2,7 @@
 const assert = require('assert');
 
 const Role = require('../game/Role');
+const RoleKeys = Object.keys(Role);
 
 /* global self */
 
@@ -11,8 +12,8 @@ describe('Fetch role', function () {
 
 	before(async function () {
 		for (let i = 0; i < 10; i++) {
-			let role = Role.enums[Math.floor(Math.random() * Role.enums.length)];
-			roles.push(role.toNum());
+			let role = Math.floor(Math.random() * RoleKeys.length);
+			roles.push(role);
 		}
 
 		await self.post('room', {roles});

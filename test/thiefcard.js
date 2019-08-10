@@ -3,6 +3,7 @@ const assert = require('assert');
 
 const Role = require('../game/Role');
 const Team = require('../game/Team');
+const RoleCard = require('../game/RoleCard');
 
 /* global self */
 
@@ -10,16 +11,16 @@ describe('Thief Card', function () {
 
 	it('provides 2 more cards', async function () {
 		for (let t = 0; t < 10; t++) {
-			let roles = [Role.Werewolf, Role.Thief, Role.Villager].map(role => role.toNum());
+			let roles = [Role.Werewolf, Role.Thief, Role.Villager];
 			await self.post('room', {roles});
 			let room = await self.getJSON();
 			assert(room.roles.length === 3);
 
 			await self.get('role', {id: room.id, seat: 1, key: Math.floor(Math.random() * 0xFFFF)});
 			let my = await self.getJSON();
-			assert(my.role === Role.Thief.toNum());
+			assert(my.role === Role.Thief);
 
-			let cards = my.cards.map(role => Role.fromNum(role));
+			let cards = my.cards;
 			assert(cards.length === 2);
 			assert(cards.indexOf(Role.Werewolf) >= 0);
 			assert(cards.indexOf(Role.Villager) >= 0);
@@ -33,16 +34,16 @@ describe('Thief Card', function () {
 		for (let t = 0; t < 10; t++) {
 			let roles = [Role.Werewolf, Role.Werewolf, Role.Werewolf, Role.AlphaWolf, Role.Thief, Role.Seer];
 
-			await self.post('room', {roles: roles.map(role => role.toNum())});
+			await self.post('room', {roles});
 			let room = await self.getJSON();
 
 			await self.get('roles', {id: room.id, ownerKey: room.ownerKey});
 			let players = await self.getJSON();
-			let room_roles = players.map(player => player.card).map(card => Role.fromNum(card.role));
+			let room_roles = players.map(player => player.role);
 			assert(room_roles.length === roles.length - 2);
 
-			let requested_werewolves = roles.filter(role => role.team === Team.Werewolf);
-			let werewolves = room_roles.filter(role => role.team === Team.Werewolf);
+			let requested_werewolves = roles.filter(role => RoleCard.toTeam(role) === Team.Werewolf);
+			let werewolves = room_roles.filter(role => RoleCard.toTeam(role) === Team.Werewolf);
 			assert(requested_werewolves.length - 1 === werewolves.length);
 
 			await self.delete('room', {id: room.id, ownerKey: room.ownerKey});
@@ -59,8 +60,7 @@ describe('Thief Card', function () {
 				Role.Cupid, Role.Thief,
 			];
 
-			let requested_roles = roles.map(role => role.toNum());
-			await self.post('room', {roles: requested_roles});
+			await self.post('room', {roles});
 			let room = await self.getJSON();
 			assert(room.roles.length === roles.length);
 
@@ -74,19 +74,19 @@ describe('Thief Card', function () {
 				if (my.cards) {
 					assert(my.cards.length === 2);
 
-					let card1 = Role.fromNum(my.cards[0]);
-					let card2 = Role.fromNum(my.cards[1]);
-					assert(card1.team !== Team.Werewolf || card2.team !== Team.Werewolf);
+					let team1 = RoleCard.toTeam(my.cards[0]);
+					let team2 = RoleCard.toTeam(my.cards[1]);
+					assert(team1 !== Team.Werewolf || team2 !== Team.Werewolf);
 
 					fetched_roles.push(...my.cards);
 				}
 			}
 
-			assert(requested_roles.length === fetched_roles.length);
-			requested_roles.sort();
+			assert(roles.length === fetched_roles.length);
+			roles.sort();
 			fetched_roles.sort();
 			for (let i = 0; i < fetched_roles.length; i++) {
-				assert(requested_roles[i] === fetched_roles[i]);
+				assert(roles[i] === fetched_roles[i]);
 			}
 
 			await self.delete('room', {id: room.id, ownerKey: room.ownerKey});

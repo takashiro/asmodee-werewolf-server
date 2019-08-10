@@ -1,8 +1,8 @@
 
 const Timing = require('../game/Timing');
 const Role = require('../game/Role');
-
 const Team = require('../game/Team');
+const RoleCard = require('../game/RoleCard');
 const Skill = require('../game/Skill');
 
 /**
@@ -38,13 +38,13 @@ class ThiefShuffleCard extends Skill {
 
 		let extraCards = new Array(thieves.length);
 		for (let i = 0; i < thieves.length; i++) {
-			let villagers = roles.filter(role => role.team !== Team.Werewolf);
+			let villagers = roles.filter(role => RoleCard.toTeam(role) !== Team.Werewolf);
 			if (villagers.length <= 0) {
 				return false;
 			}
 			let card1 = takeOne(villagers);
 
-			let werewolves = roles.filter(role => role.team === Team.Werewolf);
+			let werewolves = roles.filter(role => RoleCard.toTeam(role) === Team.Werewolf);
 			roles = [...villagers, ...werewolves];
 			let card2 = takeOne(roles);
 
@@ -88,7 +88,7 @@ class ThiefTakeSeat extends Skill {
 	effect(room, target, data) {
 		data.cards = [0, 0];
 		if (target.thiefExtraCards) {
-			data.cards = target.thiefExtraCards.map(role => role.toNum());
+			data.cards = target.thiefExtraCards;
 		}
 	}
 
