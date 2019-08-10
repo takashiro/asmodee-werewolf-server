@@ -2,7 +2,7 @@
 const assert = require('assert');
 const UnitTest =  require('../UnitTest');
 
-const Role = require('../../game/Role');
+const Role = require('../game/Role');
 
 class FetchRolesTest extends UnitTest {
 

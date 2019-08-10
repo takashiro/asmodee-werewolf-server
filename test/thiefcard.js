@@ -2,8 +2,8 @@
 const assert = require('assert');
 const UnitTest = require('../UnitTest');
 
-const Role = require('../../game/Role');
-const Team = require('../../game/Team');
+const Role = require('../game/Role');
+const Team = require('../game/Team');
 
 class ThiefCardTest extends UnitTest {
 
