@@ -5,8 +5,8 @@ const UnitTest = require('./util/UnitTest');
 let server = null;
 
 before(async function () {
-	let localDebug = process.argv.some(argv => argv === '--local-debug');
-	const App = require((localDebug ? '../core' : './util') + '/App');
+	const config = require('./config.json');
+	const App = require((config.localDebug ? '../core' : './util') + '/App');
 
 	// Start server application
 	const port = 10000 + Math.floor(Math.random() * 55536);

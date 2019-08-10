@@ -13,9 +13,14 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "Launch Test",
-			"program": "${workspaceFolder}/test.js",
-			"args": ["--local-debug"]
+			"name": "Run Tests",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+			"args": [
+				"--timeout",
+				"999999",
+				"--colors",
+			],
+			"internalConsoleOptions": "openOnSessionStart"
 		}
 	]
 }
