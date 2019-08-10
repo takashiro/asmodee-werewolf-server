@@ -12,16 +12,13 @@ function GET(param) {
 	}
 
 	const engine = room.getEngine();
-	const seats = [];
-	for (let player of engine.players) {
-		let card = {role: player.getRole().toNum()};
-		engine.trigger(Timing.TakeSeat, player, card);
-		seats.push({
-			seat: player.getSeat(),
-			card,
-		});
+	const profiles = [];
+	for (const player of engine.players) {
+		const profile = player.getProfile();
+		engine.trigger(Timing.TakeSeat, player, profile);
+		profiles.push(profile);
 	}
-	return seats;
+	return profiles;
 }
 
 module.exports = {

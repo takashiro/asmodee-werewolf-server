@@ -31,6 +31,14 @@ class Player {
 		this.role = role;
 	}
 
+	getProfile() {
+		const profile = {
+			seat: this.seat,
+			role: this.role,
+		};
+		return profile;
+	}
+
 }
 
 module.exports = Player;
