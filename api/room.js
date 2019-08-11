@@ -2,6 +2,7 @@
 const Room = require('../core/Room');
 const HttpError = require('../core/HttpError');
 const RoleCard = require('../game/RoleCard');
+const GameMode = require('../game/Mode');
 
 function POST(param, input) {
 	if (!input.roles || !(input.roles instanceof Array)) {
@@ -25,12 +26,22 @@ function POST(param, input) {
 		throw new HttpError(400, 'All roles are invalid');
 	}
 
+	let mode = (input.mode && parseInt(input.mode, 10)) || GameMode.Normal;
+	if (!Object.values(GameMode).includes(mode)) {
+		throw new HttpError(400, 'Bad game mode');
+	}
+
+	if (mode === GameMode.Dual && roles.length < 2) {
+		throw new HttpError(400, 'Too few roles');
+	}
+
 	let room = new Room;
 	if (!this.lobby.add(room)) {
 		throw new HttpError(500, 'Too many rooms');
 	}
 
 	let engine = room.getEngine();
+	engine.setMode(mode);
 	engine.setRoles(roles);
 	engine.start();
 

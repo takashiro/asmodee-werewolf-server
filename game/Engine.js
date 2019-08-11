@@ -2,6 +2,7 @@
 const Timing = require('./Timing');
 const Player = require('./Player');
 const SkillList = require('../skills');
+const Mode = require('./Mode');
 
 /**
  * Shuffle an array in place
@@ -22,6 +23,23 @@ class Engine {
 		this.roles = [];
 		this.skills = [];
 		this.players = [];
+		this.mode = Mode.Normal;
+	}
+
+	/**
+	 * Gets game mode
+	 * @return {mode}
+	 */
+	getMode() {
+		return this.mode;
+	}
+
+	/**
+	 * Sets game mode
+	 * @param {number} mode
+	 */
+	setMode(mode) {
+		this.mode = mode;
 	}
 
 	/**
@@ -52,17 +70,35 @@ class Engine {
 			playerNum: roles.length,
 			roles,
 		};
+
 		this.trigger(Timing.ShuffleCards, null, config);
 
 		roles = config.roles;
 		shuffle(roles);
 
+		if (this.mode === Mode.Dual) {
+			config.playerNum = Math.floor(config.playerNum / 2);
+		}
+
 		this.players = new Array(config.playerNum);
-		for (let i = 0; i < config.playerNum; i++) {
-			let player = new Player(i + 1);
-			this.players[i] = player;
-			player.addRole(roles[i]);
-			this.trigger(Timing.DrawCard, player, config);
+		if (this.mode === Mode.Normal) {
+			for (let i = 0; i < config.playerNum; i++) {
+				const player = new Player(i + 1);
+				this.players[i] = player;
+				player.addRole(roles[i]);
+				this.trigger(Timing.DrawCard, player, config);
+			}
+		} else if (this.mode === Mode.Dual) {
+			let k = 0;
+			for (let i = 0; i < config.playerNum; i++) {
+				const player = new Player(i + 1);
+				this.players[i] = player;
+				player.addRole(roles[k++]);
+				player.addRole(roles[k++]);
+				this.trigger(Timing.DrawCard, player, config);
+			}
+		} else {
+			throw new Error('Invalid game mode');
 		}
 	}
 

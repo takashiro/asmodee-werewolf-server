@@ -20,12 +20,12 @@ function GET(param) {
 		throw new HttpError(403, 'Invalid seat key');
 	}
 
-	let card = engine.takeSeat(seat, key);
-	if (!card) {
+	let profile = engine.takeSeat(seat, key);
+	if (!profile) {
 		throw new HttpError(409, 'The seat has been taken');
 	}
 
-	return card;
+	return profile;
 }
 
 module.exports = {
