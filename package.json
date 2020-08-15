@@ -20,5 +20,8 @@
   "devDependencies": {
     "eslint": "^5.16.0",
     "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "@asmodee/werewolf-core": "^0.1.2"
   }
 }
