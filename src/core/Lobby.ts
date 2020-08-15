@@ -1,3 +1,5 @@
+import { ServerStatus } from '@asmodee/werewolf-core';
+
 import Room from './Room';
 
 export default class Lobby {
@@ -80,5 +82,12 @@ export default class Lobby {
 		} else {
 			return false;
 		}
+	}
+
+	getStatus(): ServerStatus {
+		return {
+			roomNum: this.rooms.size,
+			capacity: this.capacity,
+		};
 	}
 }

@@ -48,6 +48,10 @@ export default class GameDriver extends EventDriver<GameEvent> {
 		this.roles = roles;
 	}
 
+	getPlayers(): Player[] {
+		return this.players;
+	}
+
 	/**
 	 * Start to play the game
 	 */

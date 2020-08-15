@@ -25,6 +25,10 @@ export default class Room {
 		return this.id;
 	}
 
+	getOwnerKey(): string {
+		return this.ownerKey;
+	}
+
 	getDriver(): GameDriver {
 		return this.driver;
 	}
