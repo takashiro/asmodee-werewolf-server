@@ -78,7 +78,7 @@ export default class GameDriver extends EventDriver<GameEvent> {
 				const player = new Player(i + 1);
 				this.players[i] = player;
 				player.addRole(roles[i]);
-				this.trigger(GameEvent.DrawCard, config);
+				this.trigger(GameEvent.DrawCard, player);
 			}
 		} else if (this.mode === Mode.Dual) {
 			let k = 0;
@@ -87,7 +87,7 @@ export default class GameDriver extends EventDriver<GameEvent> {
 				this.players[i] = player;
 				player.addRole(roles[k++]);
 				player.addRole(roles[k++]);
-				this.trigger(GameEvent.DrawCard, config);
+				this.trigger(GameEvent.DrawCard, player);
 			}
 		}
 	}
@@ -123,7 +123,6 @@ export default class GameDriver extends EventDriver<GameEvent> {
 		}
 
 		const profile = player.getProfile();
-		this.trigger(GameEvent.TakeSeat, profile);
 		return profile;
 	}
 
