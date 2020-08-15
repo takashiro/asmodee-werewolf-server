@@ -5,6 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+    "build": "tsc",
+    "debug": "tsc --incremental",
     "test": "eslint ."
   },
   "repository": {
