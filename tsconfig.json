@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"outDir": "dist",
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"lib": [
+			"ES2019"
+		],
+		"strict": true,
+		"declaration": true
+	},
+	"include": [
+		"src"
+	]
+}
