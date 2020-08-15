@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "eslint . && mocha"
+    "test": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/takashiro/asmodee-werewolf-server#readme",
   "devDependencies": {
-    "eslint": "^5.16.0",
-    "mocha": "^6.2.0"
+    "eslint": "^5.16.0"
   }
 }
