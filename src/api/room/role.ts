@@ -18,7 +18,7 @@ router.get('/:seat', (req: Request, res: Response) => {
 
 	const driver = room.getDriver();
 	const seat = Number.parseInt(req.params.seat, 10);
-	if (isNaN(seat) || !driver.hasSeat(seat)) {
+	if (Number.isNaN(seat) || !driver.hasSeat(seat)) {
 		res.status(400).send('Invalid seat');
 		return;
 	}

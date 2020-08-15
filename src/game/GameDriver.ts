@@ -55,14 +55,14 @@ export default class GameDriver extends EventDriver<GameEvent> {
 	/**
 	 * Start to play the game
 	 */
-	start() {
+	start(): void {
 		this.arrangeCards();
 	}
 
 	/**
 	 * Arrange cards
 	 */
-	arrangeCards() {
+	arrangeCards(): void {
 		const roles = [...this.roles];
 
 		const config: GameConfig = {

@@ -1,4 +1,3 @@
-
 enum GameEvent {
 	ShuffleCards,
 	DrawCard,

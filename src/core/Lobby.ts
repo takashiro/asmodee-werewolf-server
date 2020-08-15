@@ -11,9 +11,9 @@ export default class Lobby {
 
 	protected capacity: number;
 
-	constructor(capacity = 1000)  {
+	constructor(capacity = 1000) {
 		this.nextRoomId = 0;
-		this.rooms = new Map;
+		this.rooms = new Map();
 		this.timeout = 60 * 60 * 1000;
 		this.capacity = capacity;
 	}
@@ -79,9 +79,8 @@ export default class Lobby {
 		if (room) {
 			room.destroy();
 			return this.rooms.delete(id);
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	getStatus(): ServerStatus {

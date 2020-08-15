@@ -33,12 +33,13 @@ router.post('/', (req: Request, res: Response) => {
 	if (roleIds.length > 50) {
 		res.status(400).send('Too many roles');
 		return;
-	} else if (roleIds.length <= 0) {
+	}
+	if (roleIds.length <= 0) {
 		res.status(400).send('At least one role must exist');
 		return;
 	}
 
-	const roles: Role[] = roleIds.filter((role) => Boolean(Role[role]))
+	const roles: Role[] = roleIds.filter((role) => Boolean(Role[role]));
 	if (roles.length <= 0) {
 		res.status(400).send('All roles are invalid');
 		return;
@@ -55,7 +56,7 @@ router.post('/', (req: Request, res: Response) => {
 		return;
 	}
 
-	const room = new Room;
+	const room = new Room();
 	if (!lobby.add(room)) {
 		res.status(500).send('Too many rooms');
 	}

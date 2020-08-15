@@ -1,31 +1,53 @@
 {
 	"env": {
-		"node": true,
-		"commonjs": true,
-		"es6": true
+		"browser": true,
+		"es2020": true,
+		"node": true
 	},
-	"extends": "eslint:recommended",
-	"globals": {
-		"Atomics": "readonly",
-		"SharedArrayBuffer": "readonly"
-	},
+	"extends": [
+		"airbnb-base",
+		"plugin:@typescript-eslint/recommended"
+	],
+	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
-		"ecmaVersion": 2018
+		"ecmaVersion": 11,
+		"sourceType": "module"
 	},
+	"plugins": [
+		"@typescript-eslint"
+	],
 	"rules": {
+		"consistent-return": "off",
+		"import/extensions": [
+			"error",
+			"ignorePackages",
+			{
+				"ts": "never",
+				"js": "never"
+			}
+		],
 		"indent": [
 			"error",
 			"tab"
 		],
-		"quotes": [
+		"linebreak-style": "off",
+		"max-len": "off",
+		"no-continue": "off",
+		"no-restricted-syntax": [
 			"error",
-			"single"
+			"WithStatement"
 		],
-		"semi": [
-			"error",
-			"always"
-		],
-		"no-unused-vars": "off",
-		"no-console": "off"
+		"no-plusplus": "off",
+		"no-param-reassign": "off",
+		"no-tabs": "off"
+	},
+	"settings": {
+		"import/resolver": {
+			"node": {
+				"extensions": [
+					".ts"
+				]
+			}
+		}
 	}
 }

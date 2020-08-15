@@ -7,7 +7,7 @@ export default class EventDriver<EventType> {
 		this.listeners = new Map();
 	}
 
-	register(listener: EventListener<EventType, unknown>) {
+	register(listener: EventListener<EventType, unknown>): void {
 		const listeners = this.listeners.get(listener.event);
 		if (!listeners) {
 			this.listeners.set(listener.event, [listener]);

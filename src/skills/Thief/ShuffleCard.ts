@@ -15,7 +15,6 @@ import ThiefSkill from '.';
  * Thief takes 2 more cards (they cannot be 2 werewolves).
  */
 export default class ThiefShuffleCard extends SkillEffect<ThiefSkill, GameConfig> {
-
 	constructor(parent: ThiefSkill) {
 		super(parent, GameEvent.ShuffleCards);
 	}

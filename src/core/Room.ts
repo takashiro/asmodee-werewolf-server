@@ -18,7 +18,7 @@ export default class Room {
 		this.id = 0;
 		this.salt = randstr(8);
 		this.ownerKey = randstr(32);
-		this.driver = new GameDriver;
+		this.driver = new GameDriver();
 	}
 
 	getId(): number {
