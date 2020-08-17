@@ -18,6 +18,14 @@ export default class Lobby {
 		this.capacity = capacity;
 	}
 
+	setCapacity(capacity: number): void {
+		this.capacity = capacity;
+	}
+
+	getCapacity(): number {
+		return this.capacity;
+	}
+
 	/**
 	 * The number of existing rooms
 	 */

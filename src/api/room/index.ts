@@ -68,7 +68,7 @@ router.post('/', (req: Request, res: Response) => {
 
 	const config = room.toJSON();
 	config.ownerKey = room.getOwnerKey();
-	return config;
+	res.json(config);
 });
 
 router.get('/:id', (req: Request, res: Response) => {
