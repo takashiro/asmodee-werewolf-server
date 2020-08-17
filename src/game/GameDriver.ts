@@ -120,7 +120,7 @@ export default class GameDriver extends EventDriver<GameEvent> {
 			return null;
 		}
 
-		if (player.getSeatKey() === null) {
+		if (player.getSeatKey() === undefined) {
 			player.setSeatKey(key);
 		} else if (player.getSeatKey() !== key) {
 			return null;

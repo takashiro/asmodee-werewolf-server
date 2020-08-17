@@ -15,12 +15,12 @@ import {
 
 import findRoom from './findRoom';
 
-import roleRouter from './role';
+import seatRouter from './seat';
 import rolesRouter from './roles';
 
 const router = Router();
 
-router.use('/:id/role', roleRouter);
+router.use('/:id/seat', seatRouter);
 router.use('/:id/roles', rolesRouter);
 
 router.post('/', (req: Request, res: Response) => {
