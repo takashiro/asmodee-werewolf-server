@@ -13,6 +13,8 @@ import {
 	Room,
 } from '../../core';
 
+import skills from '../../skills';
+
 import findRoom from './findRoom';
 
 import seatRouter from './seat';
@@ -63,7 +65,20 @@ router.post('/', (req: Request, res: Response) => {
 
 	const driver = room.getDriver();
 	driver.setMode(mode);
-	driver.setRoles(roleIds);
+	driver.setRoles(roles);
+
+	for (const SkillClass of skills) {
+		const skill = new SkillClass();
+		if (!roles.includes(skill.getRole())) {
+			continue;
+		}
+
+		const effects = skill.createEffects();
+		for (const effect of effects) {
+			driver.register(effect);
+		}
+	}
+
 	driver.start();
 
 	const config = room.toJSON();

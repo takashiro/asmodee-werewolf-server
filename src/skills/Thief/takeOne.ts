@@ -10,7 +10,7 @@ export default function takeOne<Element>(...elementLists: Element[][]): Element 
 			const [one] = elements.splice(i, 1);
 			return one;
 		}
-		i -= elementLists.length;
+		i -= elements.length;
 		if (i < 0) {
 			break;
 		}
