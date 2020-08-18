@@ -2,11 +2,11 @@
   "name": "asmodee-werewolf-server",
   "version": "0.1.0",
   "description": "Server of Asmodee Werewolves of Miller's Hollow",
-  "main": "app.js",
+  "main": "dist/app.js",
   "scripts": {
-    "start": "node app.js",
-    "build": "tsc",
-    "debug": "tsc --incremental",
+    "start": "node dist/cli.js",
+    "build": "rimraf dist && tsc",
+    "debug": "tsc --incremental --sourceMap",
     "test": "npm run lint && npm run jest",
     "lint": "eslint --ext=ts .",
     "jest": "jest"
@@ -30,6 +30,7 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "jest": "^26.4.0",
+    "rimraf": "^3.0.2",
     "supertest": "^4.0.2",
     "ts-jest": "^26.2.0",
     "typescript": "^3.9.7"
@@ -39,5 +40,8 @@
     "@types/express": "^4.17.7",
     "@types/node": "^12.12.54",
     "express": "^4.17.1"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
