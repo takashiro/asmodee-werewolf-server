@@ -6,4 +6,9 @@ module.exports = {
 			tsConfig: 'test/tsconfig.json',
 		},
 	},
+	collectCoverage: true,
+	collectCoverageFrom: [
+		'src/**/*.ts',
+	],
+	coverageDirectory: 'build/coverage',
 };
