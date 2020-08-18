@@ -1,4 +1,4 @@
-Werewolves of Miller's Hollow [![Build Status](https://travis-ci.org/takashiro/asmodee-werewolf-server.svg?branch=master)](https://travis-ci.org/takashiro/asmodee-werewolf-server)
+Werewolves of Miller's Hollow ![Node.js CI](https://github.com/takashiro/asmodee-werewolf-server/workflows/Node.js%20CI/badge.svg)
 ==========
 
 | Example Page |    https://werewolf.takashiro.cn      |
