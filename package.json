@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "Server of Asmodee Werewolves of Miller's Hollow",
   "main": "dist/app.js",
+  "bin": "dist/cli.js",
   "scripts": {
     "start": "node dist/cli.js",
     "build": "rimraf dist && tsc",
