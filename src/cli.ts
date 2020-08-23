@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import config from './util/config';
 import { lobby } from './core';
 import app from './app';

@@ -8,7 +8,7 @@ export class Config {
 	lobbyCapacity: number;
 
 	constructor() {
-		this.socket = '/var/run/asmodee-werewolf.sock';
+		this.socket = '/var/run/asmodee-werewolf/asmodee-werewolf.sock';
 		this.lobbyCapacity = 1000;
 	}
 

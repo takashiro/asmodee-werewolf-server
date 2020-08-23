@@ -1,6 +1,6 @@
 {
   "name": "@asmodee/werewolf-server",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Server of Asmodee Werewolves of Miller's Hollow",
   "main": "dist/app.js",
   "bin": "dist/cli.js",
