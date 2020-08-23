@@ -9,7 +9,7 @@
 			"request": "launch",
 			"name": "Launch Program",
 			"preLaunchTask": "npm: debug",
-			"program": "${workspaceFolder}/src/index.ts",
+			"program": "${workspaceFolder}/src/cli.ts",
 			"outFiles": [
 				"${workspaceFolder}/dist/**/*.js"
 			]
