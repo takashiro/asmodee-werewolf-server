@@ -3,8 +3,6 @@ import { ServerStatus } from '@asmodee/werewolf-core';
 import Room from './Room';
 
 export default class Lobby {
-	protected nextRoomId: number;
-
 	protected rooms: Map<number, Room>;
 
 	protected timeout: number;
@@ -12,7 +10,6 @@ export default class Lobby {
 	protected capacity: number;
 
 	constructor(capacity = 1000) {
-		this.nextRoomId = 0;
 		this.rooms = new Map();
 		this.timeout = 60 * 60 * 1000;
 		this.capacity = capacity;
@@ -43,17 +40,8 @@ export default class Lobby {
 			return false;
 		}
 
-		this.nextRoomId++;
-		if (this.nextRoomId > this.capacity) {
-			this.nextRoomId = 1;
-		}
-
-		if (this.rooms.has(this.nextRoomId)) {
-			return false;
-		}
-
-		Reflect.set(room, 'id', this.nextRoomId);
-		const id = room.getId();
+		const id = this.createRoomId();
+		Reflect.set(room, 'id', id);
 		this.rooms.set(id, room);
 
 		const timer = setTimeout(() => {
@@ -96,5 +84,16 @@ export default class Lobby {
 			roomNum: this.rooms.size,
 			capacity: this.capacity,
 		};
+	}
+
+	/**
+	 * @return A random room id
+	 */
+	protected createRoomId(): number {
+		let id = 0;
+		do {
+			id = Math.floor(Math.random() * this.getCapacity() * 10);
+		} while (this.rooms.has(id));
+		return id;
 	}
 }
