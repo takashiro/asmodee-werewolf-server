@@ -26,10 +26,8 @@
 				"--no-cache",
 				"${fileBasenameNoExtension}"
 			],
-			"disableOptimisticBPs": true,
 			"console": "integratedTerminal",
-			"internalConsoleOptions": "neverOpen",
-			"port": 9229
+			"internalConsoleOptions": "neverOpen"
 		}
 	]
 }
