@@ -1,3 +1,4 @@
+import { expect, it } from '@jest/globals';
 import * as supertest from 'supertest';
 import { RoomConfig } from '@asmodee/werewolf-core';
 

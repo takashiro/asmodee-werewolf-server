@@ -1,3 +1,9 @@
+import {
+	expect,
+	it,
+	beforeAll,
+	afterAll,
+} from '@jest/globals';
 import { agent } from 'supertest';
 import { Role } from '@asmodee/werewolf-core';
 

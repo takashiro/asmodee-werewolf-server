@@ -1,3 +1,4 @@
+import { expect, it } from '@jest/globals';
 import { agent } from 'supertest';
 
 import app from '../src/app';
