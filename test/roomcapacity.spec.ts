@@ -1,4 +1,5 @@
 import * as supertest from 'supertest';
+import { RoomConfig } from '@asmodee/werewolf-core';
 
 import app from '../src/app';
 import { lobby } from '../src/core';
@@ -6,7 +7,7 @@ import { lobby } from '../src/core';
 const agent = supertest.agent(app);
 
 const roles = [10, 10, 10, 10];
-const rooms = [];
+const rooms: RoomConfig[] = [];
 const status = {
 	roomNum: 0,
 	capacity: 10,
@@ -37,7 +38,7 @@ it('refuses to create a room if all are occupied', async () => {
 it('deletes all rooms', async () => {
 	for (const room of rooms) {
 		expect(room.ownerKey).toBeTruthy();
-		await agent.delete(`/room/${room.id}?ownerKey=${encodeURIComponent(room.ownerKey)}`)
+		await agent.delete(`/room/${room.id}?ownerKey=${encodeURIComponent(room.ownerKey ?? '')}`)
 			.expect(200, { id: room.id });
 	}
 });

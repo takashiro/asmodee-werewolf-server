@@ -6,6 +6,7 @@ import {
 	Role,
 	Team,
 	Teamship,
+	PlayerProfile,
 } from '@asmodee/werewolf-core';
 
 import app from '../src/app';
@@ -39,12 +40,12 @@ it('will not take 2 werewolves', async () => {
 
 	res = await self.get(`/room/${room.id}/roles?ownerKey=${encodeURIComponent(room.ownerKey)}`)
 		.expect(200);
-	const players = res.body;
+	const players: PlayerProfile[] = res.body;
 	expect(players).toHaveLength(roles.length - 2);
 
 	const thief = players.find((player) => player.roles.includes(Role.Thief));
-	expect(thief.roles).toHaveLength(3);
-	expect(thief.roles).toContain(Role.Seer);
+	expect(thief?.roles).toHaveLength(3);
+	expect(thief?.roles).toContain(Role.Seer);
 
 	const others = players.filter((player) => player !== thief);
 	for (const other of others) {
@@ -70,11 +71,11 @@ it('privides correct roles', async () => {
 		const room = res.body;
 		expect(room.roles).toHaveLength(roles.length);
 
-		const players = [];
+		const players: PlayerProfile[] = [];
 		for (let seat = 1; seat <= roles.length - 2; seat++) {
 			res = await self.get(`/room/${room.id}/seat/${seat}?key=${seat}`)
 				.expect(200);
-			const player = res.body;
+			const player: PlayerProfile = res.body;
 			players.push(player);
 
 			if (player.roles.includes(Role.Thief)) {

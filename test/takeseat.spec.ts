@@ -10,7 +10,7 @@ const room = {
 	id: 0,
 	ownerKey: '',
 };
-const roles = [];
+const roles: Role[] = [];
 
 beforeAll(async () => {
 	for (let i = 0; i < 10; i++) {

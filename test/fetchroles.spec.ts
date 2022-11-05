@@ -6,7 +6,7 @@ import app from '../src/app';
 const RoleKeys = Object.keys(Role);
 const self = agent(app);
 
-const roles = [];
+const roles: Role[] = [];
 const room = {
 	id: 0,
 	ownerKey: '',
