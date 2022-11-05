@@ -33,4 +33,4 @@ WeChat App: https://github.com/takashiro/asmodee-werewolf-wechat
 Running Environment
 -------------------
 1. Nginx
-2. Node v14 or later versions
+2. Node v16.x or later versions
