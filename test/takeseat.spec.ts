@@ -4,6 +4,7 @@ import {
 	beforeAll,
 	afterAll,
 } from '@jest/globals';
+import { randomInt } from 'crypto';
 import { agent } from 'supertest';
 import { Role } from '@asmodee/werewolf-core';
 
@@ -20,7 +21,7 @@ const roles: Role[] = [];
 
 beforeAll(async () => {
 	for (let i = 0; i < 10; i++) {
-		const role = Math.floor(Math.random() * RoleKeys.length);
+		const role = randomInt(0, RoleKeys.length);
 		roles.push(role);
 	}
 
@@ -47,13 +48,13 @@ it('handles invalid seat key', async () => {
 });
 
 it('gets a role', async () => {
-	const res = await self.get(`/room/${room.id}/seat/3?key=${Math.floor(Math.random() * 0xFFFF)}`)
+	const res = await self.get(`/room/${room.id}/seat/3?key=${randomInt(0, 0xFFFF)}`)
 		.expect(200);
 	const [role] = res.body.roles;
 	expect(roles).toContain(role);
 });
 
 it('handles taken seat', async () => {
-	await self.get(`/room/${room.id}/seat/3?key=${Math.floor(Math.random() * 0xFFFF)}`)
+	await self.get(`/room/${room.id}/seat/3?key=${randomInt(0, 0xFFFF)}`)
 		.expect(409, 'The seat has been taken');
 });

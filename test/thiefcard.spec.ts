@@ -1,4 +1,5 @@
 import { expect, it } from '@jest/globals';
+import { randomInt } from 'crypto';
 import {
 	agent,
 	Response,
@@ -22,7 +23,7 @@ it('provides 2 more cards', async () => {
 	const room = res.body;
 	expect(room.roles).toHaveLength(3);
 
-	res = await self.get(`/room/${room.id}/seat/1?key=${Math.floor(Math.random() * 0xFFFF)}`);
+	res = await self.get(`/room/${room.id}/seat/1?key=${randomInt(0, 0xFFFF)}`);
 	const my = res.body;
 	expect(my.roles).toContain(Role.Thief);
 	expect(my.roles).toContain(Role.Werewolf);

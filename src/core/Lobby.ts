@@ -1,3 +1,4 @@
+import { randomInt } from 'crypto';
 import { ServerStatus } from '@asmodee/werewolf-core';
 
 import Room from './Room';
@@ -91,8 +92,9 @@ export default class Lobby {
 	 */
 	protected createRoomId(): number {
 		let id = 0;
+		const limit = this.getCapacity() * 10;
 		do {
-			id = Math.floor(Math.random() * this.getCapacity() * 10);
+			id = randomInt(1, limit);
 		} while (this.rooms.has(id));
 		return id;
 	}

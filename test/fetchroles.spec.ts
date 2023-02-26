@@ -4,6 +4,7 @@ import {
 	beforeAll,
 	afterAll,
 } from '@jest/globals';
+import { randomInt } from 'crypto';
 import { agent } from 'supertest';
 import { Role } from '@asmodee/werewolf-core';
 
@@ -20,7 +21,7 @@ const room = {
 
 beforeAll(async () => {
 	for (let i = 0; i < 10; i++) {
-		const role = Math.floor(Math.random() * RoleKeys.length);
+		const role = randomInt(0, RoleKeys.length);
 		roles.push(role);
 	}
 
