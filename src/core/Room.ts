@@ -1,7 +1,7 @@
 import { RoomConfig } from '@asmodee/werewolf-core';
+import { randomBytes } from 'crypto';
 
 import GameDriver from '../game/GameDriver';
-import randstr from '../util/randstr';
 
 export default class Room {
 	protected id: number;
@@ -16,8 +16,8 @@ export default class Room {
 
 	constructor() {
 		this.id = 0;
-		this.salt = randstr(8);
-		this.ownerKey = randstr(32);
+		this.salt = randomBytes(8).toString('hex');
+		this.ownerKey = randomBytes(32).toString('hex');
 		this.driver = new GameDriver();
 	}
 
