@@ -8,11 +8,10 @@ import {
 import SkillEffect from '../../game/SkillEffect';
 import GameEvent from '../../game/GameEvent';
 
-import takeOne from './takeOne';
 import ThiefSkill from '.';
 
 /**
- * Thief takes 2 more cards (they cannot be 2 werewolves).
+ * Thief takes 2 more cards, which cannot be both werewolves.
  */
 export default class ThiefShuffleCard extends SkillEffect<ThiefSkill, GameConfig> {
 	constructor(parent: ThiefSkill) {
@@ -25,41 +24,34 @@ export default class ThiefShuffleCard extends SkillEffect<ThiefSkill, GameConfig
 	}
 
 	process(config: GameConfig): boolean {
-		const thieves: Role[] = [];
-		const werewolves: Role[] = [];
-		const others: Role[] = [];
-
 		const { roles } = config;
-		for (const role of roles) {
-			const team = Teamship.get(role);
-			if (team === Team.Werewolf) {
-				werewolves.push(role);
-			} else if (role === Role.Thief) {
-				thieves.push(role);
-			} else {
-				others.push(role);
-			}
-		}
+		const teams: Team[] = roles.map((role) => Teamship.get(role) || Team.Unknown);
 
-		if (roles.length < thieves.length * 3 || others.length < thieves.length) {
-			return false;
-		}
-
-		for (let i = 0; i < thieves.length; i++) {
-			const card1 = takeOne(others);
-			const card2 = takeOne(others, werewolves);
-			if (!card1 || !card2) {
-				return false;
+		// Since roles are already shuffled, simply take the first 2 cards (except Thief).
+		for (let i = 0; i < roles.length; i++) {
+			const role = roles[i];
+			if (role !== Role.Thief) {
+				continue;
 			}
+
+			const m = roles.findIndex((role, index) => role !== Role.Thief && teams[index] !== Team.Werewolf);
+			if (m < 0) {
+				break;
+			}
+			const card1 = roles[m];
+			roles.splice(m, 1);
+
+			const n = roles.findIndex((role) => role !== Role.Thief);
+			if (n < 0) {
+				break;
+			}
+			const card2 = roles[n];
+			roles.splice(n, 1);
+
 			this.parent.addExtraCards([card1, card2]);
 		}
 
-		roles.splice(0);
-		roles.push(...thieves);
-		roles.push(...werewolves);
-		roles.push(...others);
 		config.playerNum = roles.length;
-
 		return false;
 	}
 }

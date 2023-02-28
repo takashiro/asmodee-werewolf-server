@@ -16,6 +16,7 @@ import {
 import skills from '../../skills';
 
 import findRoom from './findRoom';
+import shuffle from '../../util/shuffle';
 
 import seatRouter from './seat';
 import rolesRouter from './roles';
@@ -61,6 +62,11 @@ router.post('/', (req: Request, res: Response) => {
 	const room = new Room();
 	if (!lobby.add(room)) {
 		res.status(500).send('Too many rooms');
+	}
+
+	const random = req.body.random ?? true;
+	if (random) {
+		shuffle(roles);
 	}
 
 	const driver = room.getDriver();

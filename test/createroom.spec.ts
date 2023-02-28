@@ -1,5 +1,6 @@
 import { expect, it } from '@jest/globals';
 import * as supertest from 'supertest';
+import { RoomConfig } from '@asmodee/werewolf-core';
 
 import app from '../src/app';
 
@@ -25,12 +26,14 @@ it('should handle that all roles are invalid', async () => {
 it('should create a room', async () => {
 	const roles = [1, 2, 3, 4];
 	const res = await agent.post('/room').send({ roles });
-	const room = res.body;
+	const room = res.body as RoomConfig;
 	expect(room.id).toBeGreaterThan(0);
 	expect(room.ownerKey).toBeTruthy();
 	expect(room.salt).toBeTruthy();
-	expect(roles).toStrictEqual(room.roles);
+	expect(room.roles.sort((a, b) => a - b)).toStrictEqual(roles);
 
-	await agent.delete(`/room/${room.id}?ownerKey=${encodeURIComponent(room.ownerKey)}`)
-		.expect(200, { id: room.id });
+	if (room.ownerKey) {
+		await agent.delete(`/room/${room.id}?ownerKey=${encodeURIComponent(room.ownerKey)}`)
+			.expect(200, { id: room.id });
+	}
 });

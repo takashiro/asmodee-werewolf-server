@@ -5,8 +5,6 @@ import {
 	PlayerProfile,
 } from '@asmodee/werewolf-core';
 
-import shuffle from '../util/shuffle';
-
 import GameEvent from './GameEvent';
 import Player from './Player';
 import EventDriver from './EventDriver';
@@ -70,7 +68,6 @@ export default class GameDriver extends EventDriver<GameEvent> {
 			roles,
 		};
 		this.trigger(GameEvent.ShuffleCards, config);
-		shuffle(roles);
 
 		if (this.mode === Mode.Dual) {
 			config.playerNum = Math.floor(config.playerNum / 2);
