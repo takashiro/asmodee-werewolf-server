@@ -1,4 +1,4 @@
 {
 	"socket": "/var/run/asmodee-werewolf/asmodee-werewolf.sock",
-	"roomNumLimit": 1000
+	"lobbyCapacity": 1000
 }

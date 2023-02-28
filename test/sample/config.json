@@ -1,0 +1,7 @@
+{
+	"socket": {
+		"host": "localhost",
+		"port": 8743
+	},
+	"lobbyCapacity": 20
+}

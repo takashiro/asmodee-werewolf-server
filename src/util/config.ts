@@ -1,6 +1,5 @@
 import * as fs from 'fs';
-
-const { readFile } = fs.promises;
+import * as fsp from 'fs/promises';
 
 export class Config {
 	socket: number | string;
@@ -18,7 +17,7 @@ export class Config {
 		}
 
 		try {
-			const content = await readFile(file, 'utf-8');
+			const content = await fsp.readFile(file, 'utf-8');
 			const config = JSON.parse(content);
 			Object.assign(this, config);
 		} catch (error) {
