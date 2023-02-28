@@ -23,6 +23,12 @@ it('should handle that all roles are invalid', async () => {
 		.expect(400, 'All roles are invalid');
 });
 
+it('cannot create a room with over 50 players', async () => {
+	const roles = new Array(51).fill(24);
+	await agent.post('/room').send({ roles })
+		.expect(400, 'Too many roles');
+});
+
 it('should create a room', async () => {
 	const roles = [1, 2, 3, 4];
 	const res = await agent.post('/room').send({ roles });
