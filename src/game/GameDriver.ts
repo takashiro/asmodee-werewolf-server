@@ -9,12 +9,16 @@ import GameEvent from './GameEvent';
 import Player from './Player';
 import EventDriver from './EventDriver';
 
+import shuffle from '../util/shuffle';
+
 export default class GameDriver extends EventDriver<GameEvent> {
 	protected mode: Mode;
 
 	protected roles: Role[];
 
 	protected players: Player[];
+
+	protected random = true;
 
 	constructor() {
 		super();
@@ -46,8 +50,26 @@ export default class GameDriver extends EventDriver<GameEvent> {
 		this.roles = roles;
 	}
 
+	/**
+	 * @returns All players
+	 */
 	getPlayers(): Player[] {
 		return this.players;
+	}
+
+	/**
+	 * @returns Whether to shuffle player roles.
+	 */
+	isRandom(): boolean {
+		return this.random;
+	}
+
+	/**
+	 * Sets whether to shuffle roles.
+	 * @param random Whether to shuffle player roles.
+	 */
+	setRandom(random: boolean): void {
+		this.random = random;
 	}
 
 	/**
@@ -62,6 +84,9 @@ export default class GameDriver extends EventDriver<GameEvent> {
 	 */
 	arrangeCards(): void {
 		const roles = [...this.roles];
+		if (this.isRandom()) {
+			shuffle(roles);
+		}
 
 		const config: GameConfig = {
 			playerNum: roles.length,

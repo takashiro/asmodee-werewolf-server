@@ -36,7 +36,7 @@ it('should create a room', async () => {
 	expect(room.id).toBeGreaterThan(0);
 	expect(room.ownerKey).toBeTruthy();
 	expect(room.salt).toBeTruthy();
-	expect(room.roles.sort((a, b) => a - b)).toStrictEqual(roles);
+	expect(room.roles).toStrictEqual(roles);
 
 	if (room.ownerKey) {
 		await agent.delete(`/room/${room.id}?ownerKey=${encodeURIComponent(room.ownerKey)}`)

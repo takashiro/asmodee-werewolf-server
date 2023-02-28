@@ -16,7 +16,6 @@ import {
 import skills from '../../skills';
 
 import findRoom from './findRoom';
-import shuffle from '../../util/shuffle';
 
 import seatRouter from './seat';
 import rolesRouter from './roles';
@@ -65,13 +64,11 @@ router.post('/', (req: Request, res: Response) => {
 	}
 
 	const random = req.body.random ?? true;
-	if (random) {
-		shuffle(roles);
-	}
 
 	const driver = room.getDriver();
 	driver.setMode(mode);
 	driver.setRoles(roles);
+	driver.setRandom(random);
 
 	for (const SkillClass of skills) {
 		const skill = new SkillClass();
