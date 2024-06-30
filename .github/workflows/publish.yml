@@ -24,7 +24,17 @@ jobs:
         name: Build
         run: npm run build
       -
-        run: npm publish --access=public
+        run: |
+          cd dist
+          cp ../package.json .
+          cp ../LICENSE .
+          cp ../README.md .
+          npm pkg delete files
+          npm pkg delete scripts
+          npm pkg delete devDependencies
+          npm pkg set main=app.js
+          npm pkg set bin.werewolf-server=cli.js
+          npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 

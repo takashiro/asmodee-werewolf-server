@@ -2,8 +2,11 @@
   "name": "@asmodee/werewolf-server",
   "version": "2.1.0",
   "description": "Server of Asmodee Werewolves of Miller's Hollow",
+  "type": "module",
   "main": "dist/app.js",
-  "bin": "dist/cli.js",
+  "bin": {
+    "werewolf-server": "dist/cli.js"
+  },
   "scripts": {
     "start": "node dist/cli.js",
     "build": "rimraf dist && tsc",
