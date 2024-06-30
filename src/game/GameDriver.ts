@@ -5,11 +5,11 @@ import {
 	PlayerProfile,
 } from '@asmodee/werewolf-core';
 
-import GameEvent from './GameEvent';
-import Player from './Player';
-import EventDriver from './EventDriver';
+import GameEvent from './GameEvent.js';
+import Player from './Player.js';
+import EventDriver from './EventDriver.js';
 
-import shuffle from '../util/shuffle';
+import shuffle from '../util/shuffle.js';
 
 export default class GameDriver extends EventDriver<GameEvent> {
 	protected mode: Mode;

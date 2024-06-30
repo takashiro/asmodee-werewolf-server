@@ -18,14 +18,8 @@ module.exports = {
 	],
 	rules: {
 		'consistent-return': 'off',
-		'import/extensions': [
-			'error',
-			'ignorePackages',
-			{
-				ts: 'never',
-				js: 'never',
-			},
-		],
+		'import/extensions': 'off',
+		'import/no-unresolved': 'off',
 		indent: [
 			'error',
 			'tab',

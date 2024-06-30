@@ -4,7 +4,7 @@ import {
 	Response,
 } from 'express';
 
-import findRoom from './findRoom';
+import findRoom from './findRoom.js';
 
 const router = Router({
 	mergeParams: true,

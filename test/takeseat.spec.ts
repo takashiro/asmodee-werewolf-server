@@ -8,7 +8,7 @@ import { randomInt } from 'crypto';
 import { agent } from 'supertest';
 import { Role } from '@asmodee/werewolf-core';
 
-import app from '../src/app';
+import app from '../src/app.js';
 
 const self = agent(app);
 const RoleKeys = Object.keys(Role);

@@ -11,14 +11,14 @@ import {
 import {
 	lobby,
 	Room,
-} from '../../core';
+} from '../../core/index.js';
 
-import skills from '../../skills';
+import skills from '../../skills/index.js';
 
-import findRoom from './findRoom';
+import findRoom from './findRoom.js';
 
-import seatRouter from './seat';
-import rolesRouter from './roles';
+import seatRouter from './seat.js';
+import rolesRouter from './roles.js';
 
 const router = Router();
 

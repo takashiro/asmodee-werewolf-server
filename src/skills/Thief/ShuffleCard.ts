@@ -5,10 +5,10 @@ import {
 	Team,
 } from '@asmodee/werewolf-core';
 
-import SkillEffect from '../../game/SkillEffect';
-import GameEvent from '../../game/GameEvent';
+import SkillEffect from '../../game/SkillEffect.js';
+import GameEvent from '../../game/GameEvent.js';
 
-import ThiefSkill from '.';
+import ThiefSkill from './index.js';
 
 /**
  * Thief takes 2 more cards, which cannot be both werewolves.

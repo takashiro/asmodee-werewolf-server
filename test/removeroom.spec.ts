@@ -1,7 +1,7 @@
 import { it } from '@jest/globals';
 import { agent } from 'supertest';
 
-import app from '../src/app';
+import app from '../src/app.js';
 
 const self = agent(app);
 

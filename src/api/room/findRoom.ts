@@ -6,7 +6,7 @@ import {
 import {
 	lobby,
 	Room,
-} from '../../core';
+} from '../../core/index.js';
 
 export default function findRoom(req: Request, res: Response): Room | undefined {
 	if (!req.params.id) {

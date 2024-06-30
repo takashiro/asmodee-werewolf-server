@@ -1,8 +1,8 @@
 import { expect, it } from '@jest/globals';
-import * as supertest from 'supertest';
+import supertest from 'supertest';
 import { RoomConfig } from '@asmodee/werewolf-core';
 
-import app from '../src/app';
+import app from '../src/app.js';
 
 const agent = supertest.agent(app);
 

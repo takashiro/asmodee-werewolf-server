@@ -1,11 +1,21 @@
-import { jest, expect, it } from '@jest/globals';
-import * as fs from 'fs';
-import * as fsp from 'fs/promises';
+import {
+	beforeAll,
+	expect,
+	it,
+	jest,
+} from '@jest/globals';
+import fs from 'fs';
+import fsp from 'fs/promises';
 
-import { Config } from '../../src/util/config';
+import { Config } from '../../src/util/config.js';
 
-const existsSync = jest.spyOn(fs, 'existsSync');
-const readFile = jest.spyOn(fsp, 'readFile');
+let existsSync: jest.SpiedFunction<typeof fs['existsSync']>;
+let readFile: jest.SpiedFunction<typeof fsp['readFile']>;
+
+beforeAll(() => {
+	existsSync = jest.spyOn(fs, 'existsSync');
+	readFile = jest.spyOn(fsp, 'readFile');
+});
 
 const config = new Config();
 

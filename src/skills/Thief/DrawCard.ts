@@ -1,8 +1,8 @@
-import GameEvent from '../../game/GameEvent';
-import Skill from '../../game/SkillEffect';
-import Player from '../../game/Player';
+import GameEvent from '../../game/GameEvent.js';
+import Skill from '../../game/SkillEffect.js';
+import Player from '../../game/Player.js';
 
-import ThiefSkill from '.';
+import ThiefSkill from './index.js';
 
 export default class ThiefDrawCard extends Skill<ThiefSkill, Player> {
 	constructor(parent: ThiefSkill) {

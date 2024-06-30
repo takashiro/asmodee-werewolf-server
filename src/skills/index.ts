@@ -1,6 +1,6 @@
-import Skill from '../game/Skill';
+import Skill from '../game/Skill.js';
 
-import ThiefSkill from './Thief';
+import ThiefSkill from './Thief/index.js';
 
 type SkillCreator = new() => Skill;
 

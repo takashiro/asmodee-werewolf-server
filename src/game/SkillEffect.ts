@@ -1,5 +1,5 @@
-import GameEvent from './GameEvent';
-import EventListener from './EventListener';
+import GameEvent from './GameEvent.js';
+import EventListener from './EventListener.js';
 
 export default abstract class SkillEffect<ParentType, ParamType> extends EventListener<GameEvent, ParamType> {
 	protected parent: ParentType;

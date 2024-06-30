@@ -4,7 +4,7 @@ import {
 	Response,
 } from 'express';
 
-import { lobby } from '../core';
+import { lobby } from '../core/index.js';
 
 const router = Router();
 

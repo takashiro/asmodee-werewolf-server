@@ -1,4 +1,4 @@
-import EventListener from './EventListener';
+import EventListener from './EventListener.js';
 
 export default class EventDriver<EventType> {
 	protected listeners: Map<EventType, EventListener<EventType, unknown>[]>;

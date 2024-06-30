@@ -1,7 +1,7 @@
 import { randomInt } from 'crypto';
 import { ServerStatus } from '@asmodee/werewolf-core';
 
-import Room from './Room';
+import Room from './Room.js';
 
 export default class Lobby {
 	protected rooms: Map<number, Room>;

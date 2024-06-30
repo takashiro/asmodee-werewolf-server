@@ -1,6 +1,6 @@
 import { Role } from '@asmodee/werewolf-core';
 
-import SkillEffect from './SkillEffect';
+import SkillEffect from './SkillEffect.js';
 
 export default abstract class Skill {
 	protected readonly role: Role;

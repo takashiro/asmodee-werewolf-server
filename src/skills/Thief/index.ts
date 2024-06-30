@@ -1,9 +1,9 @@
 import { Role } from '@asmodee/werewolf-core';
 
-import Skill from '../../game/Skill';
-import SkillEffect from '../../game/SkillEffect';
-import ThiefDrawCard from './DrawCard';
-import ThiefShuffleCard from './ShuffleCard';
+import Skill from '../../game/Skill.js';
+import SkillEffect from '../../game/SkillEffect.js';
+import ThiefDrawCard from './DrawCard.js';
+import ThiefShuffleCard from './ShuffleCard.js';
 
 export default class ThiefSkill extends Skill {
 	protected extraCards: Role[][] = [];

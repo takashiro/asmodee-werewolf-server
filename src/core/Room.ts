@@ -1,7 +1,7 @@
 import { RoomConfig } from '@asmodee/werewolf-core';
 import { randomBytes } from 'crypto';
 
-import GameDriver from '../game/GameDriver';
+import GameDriver from '../game/GameDriver.js';
 
 export default class Room {
 	protected id: number;
@@ -12,7 +12,7 @@ export default class Room {
 
 	protected driver: GameDriver;
 
-	protected timer?: NodeJS.Timer;
+	protected timer?: NodeJS.Timeout;
 
 	constructor() {
 		this.id = 0;
@@ -41,7 +41,7 @@ export default class Room {
 		};
 	}
 
-	setTimer(timer: NodeJS.Timer): void {
+	setTimer(timer: NodeJS.Timeout): void {
 		this.timer = timer;
 	}
 
