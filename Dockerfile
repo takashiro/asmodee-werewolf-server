@@ -5,9 +5,9 @@ WORKDIR /opt/asmodee-werewolf
 
 # Install app
 COPY dist .
-COPY conf/config.json ./
-COPY package*.json ./
-RUN npm ci --production && rm package*.json
+COPY conf/config.json .
+COPY package*.json .
+RUN npm ci --omit=dev && rm package*.json
 
 # Expose app
 EXPOSE 8080
