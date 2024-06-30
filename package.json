@@ -23,23 +23,22 @@
   },
   "homepage": "https://github.com/takashiro/asmodee-werewolf-server#readme",
   "devDependencies": {
-    "@types/express": "^4.17.17",
-    "@types/node": "^18.14.1",
-    "@types/supertest": "^2.0.12",
-    "@typescript-eslint/eslint-plugin": "^5.53.0",
-    "@typescript-eslint/parser": "^5.53.0",
-    "eslint": "^8.34.0",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.9",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.14.1",
+    "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.27.5",
-    "jest": "^29.4.3",
-    "rimraf": "^4.1.2",
-    "supertest": "^6.3.3",
-    "ts-jest": "^29.0.5",
-    "typescript": "^4.9.5"
+    "jest": "^29.7.0",
+    "rimraf": "^5.0.7",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.1.5",
+    "typescript": "^5.5.2"
   },
   "dependencies": {
-    "@asmodee/werewolf-core": "^0.1.4",
-    "express": "^4.18.2"
+    "@asmodee/werewolf-core": "^1.0.0",
+    "express": "^4.19.2"
   },
   "files": [
     "dist"
