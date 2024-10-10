@@ -98,7 +98,7 @@ export default class GameDriver extends EventDriver<GameEvent> {
 			config.playerNum = Math.floor(config.playerNum / 2);
 		}
 
-		this.players = new Array(config.playerNum);
+		this.players = new Array<Player>(config.playerNum);
 		if (this.mode === Mode.Normal) {
 			for (let i = 0; i < config.playerNum; i++) {
 				const player = new Player(i + 1);

@@ -1,6 +1,12 @@
 import fs from 'fs';
 import fsp from 'fs/promises';
 
+interface GlobalConfig {
+	socket: number | string;
+
+	lobbyCapacity: number;
+}
+
 export class Config {
 	socket: number | string;
 
@@ -18,9 +24,9 @@ export class Config {
 
 		try {
 			const content = await fsp.readFile(file, 'utf-8');
-			const config = JSON.parse(content);
+			const config = JSON.parse(content) as GlobalConfig;
 			Object.assign(this, config);
-		} catch (error) {
+		} catch (ignore) {
 			// Ignore
 		}
 	}

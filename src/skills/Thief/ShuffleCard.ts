@@ -25,11 +25,10 @@ export default class ThiefShuffleCard extends SkillEffect<ThiefSkill, GameConfig
 
 	process(config: GameConfig): boolean {
 		const { roles } = config;
-		const teams: Team[] = roles.map((role) => Teamship.get(role) || Team.Unknown);
+		const teams: Team[] = roles.map((role) => Teamship.get(role) ?? Team.Unknown);
 
 		// Since roles are already shuffled, simply take the first 2 cards (except Thief).
-		for (let i = 0; i < roles.length; i++) {
-			const role = roles[i];
+		for (const role of roles) {
 			if (role !== Role.Thief) {
 				continue;
 			}

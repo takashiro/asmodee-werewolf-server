@@ -6,6 +6,7 @@ import {
 import {
 	Role,
 	Mode,
+	GameConfig,
 } from '@asmodee/werewolf-core';
 
 import {
@@ -25,7 +26,14 @@ const router = Router();
 router.use('/:id/seat', seatRouter);
 router.use('/:id/roles', rolesRouter);
 
-router.post('/', (req: Request, res: Response) => {
+interface RoomRequest extends GameConfig {
+	mode: Mode;
+	random: boolean;
+}
+
+type RoomResponse = GameConfig | string;
+
+router.post('/', (req: Request<Record<string, string>, RoomResponse, RoomRequest>, res: Response<RoomResponse>) => {
 	const { roles: roleIds } = req.body;
 	if (!roleIds || !(roleIds instanceof Array)) {
 		res.status(400).send('Invalid roles');
@@ -47,7 +55,7 @@ router.post('/', (req: Request, res: Response) => {
 		return;
 	}
 
-	const mode = (req.body.mode && parseInt(req.body.mode, 10)) as Mode || Mode.Normal;
+	const mode = req.body.mode || Mode.Normal;
 	if (!Mode[mode]) {
 		res.status(400).send('Bad game mode');
 		return;
